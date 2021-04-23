@@ -1,12 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { initResource } from 'resource-profile/initResource';
+import App from './app/App';
+import reportWebVitals from './misc/reportWebVitals';
+import { GlobalContext } from './GlobalContext';
+
+const {
+  web3,
+} = initResource();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <GlobalContext.Provider value={{
+      web3
+    }}>
+       <App />
+    </GlobalContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
