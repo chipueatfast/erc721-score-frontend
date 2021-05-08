@@ -1,18 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
+import { FormContainer } from 'components/FormContainer';
 import { mintAToken } from 'services/mintAToken';
 import {Formik} from 'formik';
 import { convertScoreFormToScoreHash } from 'services/convertScoreFormToScoreHash';
 import { IScore } from 'models/IScore.model';
 
+interface IProps {
+    userAddress: string;
+}
 
-const FormContainer = styled.div`
-    > * {
-        margin-bottom: 16px;
-    }
-`
-
-export function JudgePage() {
+export function JudgePage(props: IProps) {
     const [errorMessage, setErrorMessage] = React.useState<string>('');
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     return (
@@ -34,6 +31,7 @@ export function JudgePage() {
                             score: Number(values.score),   
                         } as IScore),
                         toAddress: values.candidateAddress,
+                        fromAddress: props.userAddress,
                     }).then(result => {
                         if (result.reponse) {
                             setSuccessMessage(`The new minted token ID is: ${result.reponse.tokenId}`)

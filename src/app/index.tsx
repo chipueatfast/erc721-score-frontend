@@ -10,10 +10,11 @@ import { JudgePage } from 'pages/JudgePage';
 import { askForConnect } from 'services/askForConnect';
 import { getWeb3 } from 'GlobalContext';
 import './index.d';
+import { CandidatePage } from 'pages/CandidatePage';
 
 
 function App() {
-  const [userAddress, setUserAddress] = React.useState<string>();
+  const [userAddress, setUserAddress] = React.useState<string>('');
   React.useEffect(() => {    
     askForConnect().then(() => {
       getWeb3().eth.getAccounts().then(accounts => {
@@ -32,6 +33,9 @@ function App() {
               <li>
                 <Link to="/judge">Judge</Link>
               </li>
+              <li>
+                <Link to="/candidate">Candidate</Link>
+              </li>
           </ul>
         </nav>
         <span>
@@ -39,7 +43,12 @@ function App() {
         </span>
         <Switch>
           <Route path='/judge'>
-            <JudgePage />
+            <JudgePage
+              userAddress={userAddress}
+            />
+          </Route>
+          <Route path='/candidate'>
+            <CandidatePage />
           </Route>
         </Switch>
       </div>

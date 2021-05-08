@@ -1,9 +1,11 @@
 import { getContract } from 'smart-contract/erc721-score';
 
 export async function mintAToken({
+    fromAddress,
     toAddress,
     scoreHash,
 }: {
+    fromAddress: string;
     toAddress: string,
     scoreHash: string,
 }): Promise<{
