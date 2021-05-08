@@ -7,7 +7,9 @@ export async function mintAToken({
     toAddress: string,
     scoreHash: string,
 }): Promise<{
-    reponse?: any;
+    reponse?: {
+        tokenId: number;
+    };
     errorMessage?: string;
 }> {
     return new Promise((resolve) => {
@@ -17,7 +19,9 @@ export async function mintAToken({
             });
             getContract().once('Transfer', (err, data) => {
                 resolve({
-                    reponse: data.returnValues,
+                    reponse: {
+                        tokenId: data.returnValues.tokenId,
+                    },
                 })
             })
 

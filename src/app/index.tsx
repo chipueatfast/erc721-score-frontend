@@ -1,8 +1,16 @@
 import React from 'react';
-import { Random } from 'components/Random';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
+import { JudgePage } from 'pages/JudgePage';
 import { askForConnect } from 'services/askForConnect';
-import './index.d';
 import { getWeb3 } from 'GlobalContext';
+import './index.d';
+
 
 function App() {
   const [userAddress, setUserAddress] = React.useState<string>();
@@ -17,12 +25,25 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <Random />
-      <span>
-        {userAddress}
-      </span>
-    </div>
+    <Router>
+      <div className="App">
+        <nav>
+          <ul>
+              <li>
+                <Link to="/judge">Judge</Link>
+              </li>
+          </ul>
+        </nav>
+        <span>
+          {userAddress}
+        </span>
+        <Switch>
+          <Route path='/judge'>
+            <JudgePage />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
