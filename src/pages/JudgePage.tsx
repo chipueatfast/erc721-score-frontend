@@ -1,9 +1,11 @@
 import React from 'react';
+import { FirebaseDatabaseTransaction } from '@react-firebase/database';
 import { FormContainer } from 'components/FormContainer';
 import { mintAToken } from 'services/mintAToken';
 import {Formik} from 'formik';
 import { convertScoreFormToScoreHash } from 'services/convertScoreFormToScoreHash';
 import { IScore } from 'models/IScore.model';
+import { scoreSheetPath } from 'firebase-service/scoreSheetPath';
 
 interface IProps {
     userAddress: string;
@@ -18,6 +20,10 @@ export function JudgePage(props: IProps) {
                 display: 'block',
             }}
         >
+            <FirebaseDatabaseTransaction path={scoreSheetPath}>
+                {
+                    ({ runTransaction }) => {
+                        return (
             <Formik
                 initialValues={{
                     score: '',
@@ -25,16 +31,27 @@ export function JudgePage(props: IProps) {
                     candidateAddress: '',
                 }}
                 onSubmit={(values) => {
+                    console.log(values);
                     mintAToken({
                         scoreHash: convertScoreFormToScoreHash({
                             ...values,
-                            score: Number(values.score),   
                         } as IScore),
                         toAddress: values.candidateAddress,
                         fromAddress: props.userAddress,
                     }).then(result => {
-                        if (result.reponse) {
-                            setSuccessMessage(`The new minted token ID is: ${result.reponse.tokenId}`)
+                        if (result.reponse && result.reponse.tokenId) {
+                            const tokenId = result.reponse.tokenId;
+                            runTransaction({
+                                reducer: (state) => {
+                                    console.log(state);
+                                    if (!state) {
+                                        state={};
+                                    }
+                                    state[tokenId]=values;
+                                    return {...state};
+                                }
+                            }).then(() => {});
+                            setSuccessMessage(`The new minted token ID is: ${tokenId}`)
                         }
                         if ("errorMessage" in result && typeof result.errorMessage === 'string') {
                             setErrorMessage(result.errorMessage);
@@ -50,8 +67,6 @@ export function JudgePage(props: IProps) {
                     }) => {
                         return (<FormContainer>
                             <div>
-                                ---------------------
-                                <br/>
                                 Create a score token here:
                             </div>
                             <select 
@@ -94,12 +109,14 @@ export function JudgePage(props: IProps) {
                                 Mint a score token
                             </button>
                             }
-                            
-
                         </FormContainer>)
                     }
                 }
-            </Formik>
+            </Formik>)
+                    }
+                }
+
+            </FirebaseDatabaseTransaction>
             {
                 !!errorMessage &&
                 <div style={{color: 'red'}}>

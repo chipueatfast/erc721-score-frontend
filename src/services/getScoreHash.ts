@@ -1,16 +1,15 @@
 import { getContract } from 'smart-contract/erc721-score';
 
-export function getScoreHash({
+export async function getScoreHash({
     tokenId,
 }: {
     tokenId: number;
-}) {
+}): Promise<string> {
     try {
-        getContract().methods.getScoreHashByTokenId(tokenId).call().then((result: any) => {
-            debugger
-        })
+        const scoreHash = await getContract().methods.getScoreHashByTokenId(tokenId).call();
+        return scoreHash;
     }
     catch {
-        return;
+        return '';
     }
 }

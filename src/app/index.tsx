@@ -26,7 +26,6 @@ function App() {
       });
     });
   }, []);
-  console.log(FirebaseDatabaseProvider);
 
   return (
     <FirebaseDatabaseProvider firebase={firebase} {...config}>
@@ -44,6 +43,8 @@ function App() {
               </nav>
               <span>
                 {userAddress}
+                <br/>
+                ---------------------
               </span>
               <Switch>
                 <Route path='/judge'>
