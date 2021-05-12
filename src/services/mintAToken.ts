@@ -14,9 +14,9 @@ export async function mintAToken({
     };
     errorMessage?: string;
 }> {
-    return new Promise((resolve) => {
+    return new Promise(async (resolve) => {
         try {
-            getContract().methods.mint(toAddress, scoreHash).send({
+            await getContract().methods.mint(toAddress, scoreHash).send({
                 from: fromAddress,
             });
             getContract().once('Transfer', (err, data) => {
