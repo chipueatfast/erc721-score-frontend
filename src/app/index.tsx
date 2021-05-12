@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FirebaseDatabaseProvider } from "@react-firebase/database";
 import {
   BrowserRouter as Router,
@@ -16,9 +16,14 @@ import './index.d';
 import { CandidatePage } from 'pages/CandidatePage';
 
 function App() {
+  const [isEthEnabled, setIsEthEnabled] = useState<boolean>(false);
   const [userAddress, setUserAddress] = React.useState<string>('');
   React.useEffect(() => {    
-    askForConnect().then(() => {
+    askForConnect().then((rs) => {
+      setIsEthEnabled(rs);
+      if (!rs) {
+        return;
+      }
       getWeb3().eth.getAccounts().then(accounts => {
         if (accounts && accounts[0]) {
           setUserAddress(accounts[0]);
@@ -26,9 +31,14 @@ function App() {
       });
     });
   }, []);
+  if (!isEthEnabled) {
+    return <div>
+      Please install a wallet plugin such as Metamask to use this dapp.
+    </div>
+  }
 
   return (
-    <FirebaseDatabaseProvider firebase={firebase} {...config}>
+      <FirebaseDatabaseProvider firebase={firebase} {...config}>
       <Router>
         <div className="App">     
               <nav>
@@ -59,7 +69,6 @@ function App() {
           </div>
         </Router>
       </FirebaseDatabaseProvider>
-  
   );
 }
 

@@ -17,7 +17,7 @@ export async function mintAToken({
     return new Promise((resolve) => {
         try {
             getContract().methods.mint(toAddress, scoreHash).send({
-                from: '0x8a4e1258e898e526046EB8CebAAE23B655B9783b',
+                from: fromAddress,
             });
             getContract().once('Transfer', (err, data) => {
                 resolve({

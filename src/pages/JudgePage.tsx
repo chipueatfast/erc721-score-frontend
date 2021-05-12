@@ -6,6 +6,7 @@ import {Formik} from 'formik';
 import { convertScoreFormToScoreHash } from 'services/convertScoreFormToScoreHash';
 import { IScore } from 'models/IScore.model';
 import { scoreSheetPath } from 'firebase-service/scoreSheetPath';
+import { GlobalContext } from 'GlobalContext';
 
 interface IProps {
     userAddress: string;
@@ -14,6 +15,9 @@ interface IProps {
 export function JudgePage(props: IProps) {
     const [errorMessage, setErrorMessage] = React.useState<string>('');
     const [successMessage, setSuccessMessage] = React.useState<string>('');
+    if (!props.userAddress) {
+        return null;
+    }
     return (
         <div
             style={{
@@ -22,25 +26,24 @@ export function JudgePage(props: IProps) {
         >
             <FirebaseDatabaseTransaction path={scoreSheetPath}>
                 {
-                    ({ runTransaction }) => {
+                    ({ runTransaction }) => {                        
                         return (
-            <Formik
-                initialValues={{
-                    score: '',
-                    subject: '',
-                    candidateAddress: '',
-                }}
-                onSubmit={(values) => {
-                    console.log(values);
-                    mintAToken({
-                        scoreHash: convertScoreFormToScoreHash({
-                            ...values,
-                        } as IScore),
-                        toAddress: values.candidateAddress,
-                        fromAddress: props.userAddress,
-                    }).then(result => {
-                        if (result.reponse && result.reponse.tokenId) {
-                            const tokenId = result.reponse.tokenId;
+                <Formik
+                    initialValues={{
+                        score: '',
+                        subject: '',
+                        candidateAddress: '',
+                    }}
+                    onSubmit={(values) => {
+                        mintAToken({
+                            scoreHash: convertScoreFormToScoreHash({
+                                ...values,
+                            } as IScore),
+                            toAddress: values.candidateAddress,
+                            fromAddress: props.userAddress,
+                        }).then(result => {
+                            if (result.reponse && result.reponse.tokenId) {
+                                const tokenId = result.reponse.tokenId;
                             runTransaction({
                                 reducer: (state) => {
                                     console.log(state);
