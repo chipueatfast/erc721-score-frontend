@@ -15,6 +15,7 @@ import { askForConnect } from 'services/askForConnect';
 import { getWeb3 } from 'GlobalContext';
 import './index.d';
 import { CandidatePage } from 'pages/CandidatePage';
+import { Header } from 'component/Header';
 
 function App() {
   const [isEthEnabled, setIsEthEnabled] = useState<boolean>(false);
@@ -42,21 +43,9 @@ function App() {
       <FirebaseDatabaseProvider firebase={firebase} {...config}>
       <Router>
         <div className="App">     
-              <nav>
-                <ul>
-                    <li>
-                      <Link to="/judge">Judge</Link>
-                    </li>
-                    <li>
-                      <Link to="/candidate">Candidate</Link>
-                    </li>
-                </ul>
-              </nav>
-              <span>
-                {userAddress}
-                <br/>
-                ---------------------
-              </span>
+              <Header
+                userAddress={userAddress}
+              />
               <Switch>
                 <Route path='/judge'>
                   <JudgePageV2
