@@ -6,7 +6,6 @@ import {Formik} from 'formik';
 import { convertScoreFormToScoreHash } from 'services/convertScoreFormToScoreHash';
 import { IScore } from 'models/IScore.model';
 import { scoreSheetPath } from 'firebase-service/scoreSheetPath';
-import { GlobalContext } from 'GlobalContext';
 
 interface IProps {
     userAddress: string;

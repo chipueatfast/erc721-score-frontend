@@ -40,7 +40,7 @@ export function CandidatePage() {
                         </FormContainer>)
                 }}
             </Formik>
-            {!!tokenId && <ResultScoreSheet givenScoreHash={scoreHash} tokenId={tokenId} />}
+            {!!tokenId && !!scoreHash && <ResultScoreSheet givenScoreHash={scoreHash} tokenId={tokenId} />}
         </div>
     );
 }
