@@ -16,9 +16,6 @@ export async function mintAToken({
 }> {
     return new Promise(async (resolve) => {
         try {
-            await getContract().methods.mint(toAddress, scoreHash).send({
-                from: fromAddress,
-            });
             getContract().once('Transfer', (err, data) => {
                 resolve({
                     reponse: {
@@ -26,6 +23,10 @@ export async function mintAToken({
                     },
                 })
             })
+            await getContract().methods.mint(toAddress, scoreHash).send({
+                from: fromAddress,
+            });
+            
 
         } catch (error) {
             return resolve({
