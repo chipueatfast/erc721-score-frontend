@@ -9,7 +9,6 @@ let contract: Web3EthContract.Contract;
 
 export function getContract(): Web3EthContract.Contract {
     if (!contract && !!getWeb3()) {
-        console.log(Web3EthContract);
         (Web3EthContract as any).setProvider(getWeb3().eth.currentProvider);
 
         contract = new (Web3EthContract as any)(erc721ScoreJson.abi, ERC721_CONTRACT_ADDRESS);

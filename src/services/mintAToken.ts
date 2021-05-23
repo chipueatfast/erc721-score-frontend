@@ -29,6 +29,7 @@ export async function mintAToken({
             
 
         } catch (error) {
+            debugger
             return resolve({
                 errorMessage: error.message,
             });

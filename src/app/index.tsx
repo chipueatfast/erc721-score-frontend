@@ -10,6 +10,7 @@ import firebase from 'firebase/app';
 import 'firebase/database';
 import { config } from 'firebase-service/config';
 import { JudgePage } from 'pages/JudgePage';
+import { JudgePageV2 } from 'pages/JudgePageV2';
 import { askForConnect } from 'services/askForConnect';
 import { getWeb3 } from 'GlobalContext';
 import './index.d';
@@ -58,7 +59,7 @@ function App() {
               </span>
               <Switch>
                 <Route path='/judge'>
-                  <JudgePage
+                  <JudgePageV2
                     userAddress={userAddress}
                   />
                 </Route>
