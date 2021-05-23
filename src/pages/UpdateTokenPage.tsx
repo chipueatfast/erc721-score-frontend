@@ -2,7 +2,7 @@ import React from 'react';
 import { FirebaseDatabaseTransaction } from '@react-firebase/database';
 import { Pane, TextInput, Card, Button, majorScale, Select, Alert } from 'evergreen-ui';
 import {Formik} from 'formik';
-import { mintAToken } from 'services/mintAToken';
+import { updateScoreToken } from 'services/updateScoreToken';
 import { convertScoreFormToScoreHash } from 'services/convertScoreFormToScoreHash';
 import { scoreSheetPath } from 'firebase-service/scoreSheetPath';
 import { IScore } from 'models/IScore.model';
@@ -11,7 +11,7 @@ interface IProps {
     userAddress: string;
 }
 
-export function JudgePageV2(props: IProps) {
+export function UpdateTokenPage(props: IProps) {
     const [errorMessage, setErrorMessage] = React.useState<string>('');
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     if (!props.userAddress) {
@@ -23,16 +23,17 @@ export function JudgePageV2(props: IProps) {
                 {({ runTransaction }) => {                        
                     return (<Formik
                         initialValues={{
+                            tokenId: '',
                             score: '',
                             subject: '',
                             candidateAddress: '',
                         }}
                         onSubmit={(values) => {
-                            mintAToken({
+                            updateScoreToken({
                                 scoreHash: convertScoreFormToScoreHash({
                                     ...values,
                                 } as IScore),
-                                toAddress: values.candidateAddress,
+                                tokenId: Number(values.tokenId),
                                 fromAddress: props.userAddress,
                             }).then(result => {
                                 if (result.reponse && result.reponse.tokenId) {
@@ -46,7 +47,7 @@ export function JudgePageV2(props: IProps) {
                                         return {...state};
                                     }
                                 }).then(() => {});
-                                setSuccessMessage(`The new minted token ID is: ${tokenId}`)
+                                setSuccessMessage(`The token ID ${tokenId} has been updated`)
                             }
                             if ("errorMessage" in result && typeof result.errorMessage === 'string') {
                                 setErrorMessage(result.errorMessage);
@@ -74,6 +75,17 @@ export function JudgePageV2(props: IProps) {
                     paddingY={majorScale(2)}
                     paddingX={majorScale(4)}
                 >
+                    <Pane
+                        marginBottom={majorScale(2)}
+                    >
+                        <TextInput
+                            name='tokenId'
+                            onChange={handleChange}
+                            value={values.tokenId}
+                            width='50%'
+                            placeholder='Token Id'
+                        />
+                    </Pane>
                     <Select
                         name='subject'
                         value={values.subject}
@@ -115,7 +127,7 @@ export function JudgePageV2(props: IProps) {
                             handleSubmit();
                         }}
                     >
-                        Mint a token
+                        Update score token
                     </Button>
 
                 </Card>

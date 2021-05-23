@@ -1,11 +1,11 @@
 import React, { useState} from 'react';
-import { Button, majorScale, Pane, SearchInput } from 'evergreen-ui';
+import { Button, majorScale, Pane, SearchInput, Text } from 'evergreen-ui';
 import { Formik } from 'formik';
 import { getScoreHash } from 'services/getScoreHash';
 import { ResultScoreSheetV2 } from './candidate-page-components/ResultScoreSheetV2';
 
 export function SearchPage() {
-    const [tokenId, setTokenId] = useState<number>(0);
+    const [tokenId, setTokenId] = useState<number | null>(null);
     const [scoreHash, setScoreHash] = useState<string>('');
     return (
         <Pane>
@@ -45,7 +45,8 @@ export function SearchPage() {
                                 }
                             }
                         </Formik>
-                        {!!tokenId && !!scoreHash && <ResultScoreSheetV2 givenScoreHash={scoreHash} tokenId={tokenId} />}
+                        {(!!tokenId || tokenId === 0) && !scoreHash && <Text>NOT FOUND ON BLOCKCHAIN</Text>}
+                        {(!!tokenId || tokenId === 0) && !!scoreHash && <ResultScoreSheetV2 givenScoreHash={scoreHash} tokenId={tokenId} />}
                     </Pane>
     );
 }

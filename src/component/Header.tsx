@@ -25,11 +25,18 @@ export function Header(props: IProps) {
                     Mint
                 </Link>
                 <Link
+                    marginRight={majorScale(1)}
+                    href='/update'
+                >
+                    Update
+                </Link>
+                <Link
                     href='/search'
                     marginRight={majorScale(1)}
                 >
                     Search
                 </Link>
+
 
             </Pane>
             <Pane>

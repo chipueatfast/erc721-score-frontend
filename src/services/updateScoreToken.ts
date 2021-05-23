@@ -1,37 +1,35 @@
 import { getContract } from 'smart-contract/erc721-score';
 
-export async function mintAToken({
-    fromAddress,
-    toAddress,
+export async function updateScoreToken({
+    tokenId,
     scoreHash,
-}: {
-    fromAddress: string;
-    toAddress: string,
-    scoreHash: string,
-}): Promise<{
-    reponse?: {
+    fromAddress}: {
         tokenId: number;
-    };
-    errorMessage?: string;
-}> {
+        scoreHash: string;
+        fromAddress: string;
+    }): Promise<{
+        reponse?: {
+            tokenId: number;
+        };
+        errorMessage?: string;
+    }> {
     return new Promise(async (resolve) => {
         try {
-            getContract().once('Transfer', (err, data) => {
+            getContract().once('Update', (err, data) => {
                 resolve({
                     reponse: {
                         tokenId: data.returnValues.tokenId,
                     },
                 })
             })
-            await getContract().methods.mint(toAddress, scoreHash).send({
+            await getContract().methods.updateScoreHashByTokenId(tokenId, scoreHash).send({
                 from: fromAddress,
             });
-            
-
-        } catch (error) {
+        }
+        catch (error) {
             return resolve({
                 errorMessage: error.message,
             });
         }
-    })
+    });
 }

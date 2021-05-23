@@ -17,6 +17,7 @@ import './index.d';
 import { CandidatePage } from 'pages/CandidatePage';
 import { Header } from 'component/Header';
 import { SearchPage } from 'pages/SearchPage';
+import { UpdateTokenPage } from 'pages/UpdateTokenPage';
 
 function App() {
   const [isEthEnabled, setIsEthEnabled] = useState<boolean>(false);
@@ -51,6 +52,11 @@ function App() {
                 <Route path='/judge'>
                   <JudgePageV2
                     userAddress={userAddress}
+                  />
+                </Route>
+                <Route path='/update'>
+                  <UpdateTokenPage 
+                    userAddress={userAddress} 
                   />
                 </Route>
                 <Route path='/search'>

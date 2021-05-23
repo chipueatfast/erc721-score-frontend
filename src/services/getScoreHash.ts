@@ -9,7 +9,7 @@ export async function getScoreHash({
         const scoreHash = await getContract().methods.getScoreHashByTokenId(tokenId).call();
         return scoreHash;
     }
-    catch {
+    catch (error) {
         return '';
     }
 }
