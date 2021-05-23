@@ -25,7 +25,7 @@ export function Header(props: IProps) {
                     Mint
                 </Link>
                 <Link
-                    href='/candidate'
+                    href='/search'
                     marginRight={majorScale(1)}
                 >
                     Search

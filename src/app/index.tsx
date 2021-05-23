@@ -16,6 +16,7 @@ import { getWeb3 } from 'GlobalContext';
 import './index.d';
 import { CandidatePage } from 'pages/CandidatePage';
 import { Header } from 'component/Header';
+import { SearchPage } from 'pages/SearchPage';
 
 function App() {
   const [isEthEnabled, setIsEthEnabled] = useState<boolean>(false);
@@ -51,6 +52,9 @@ function App() {
                   <JudgePageV2
                     userAddress={userAddress}
                   />
+                </Route>
+                <Route path='/search'>
+                  <SearchPage />
                 </Route>
                 <Route path='/candidate'>
                   <CandidatePage />
