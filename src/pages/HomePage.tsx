@@ -23,7 +23,7 @@ function HomePage() {
             
             <Pane marginBottom={majorScale(1)}>
                 <Text textAlign='center'>
-                    Author: Pham Huy Phat, 15520604@gm.uit.edu.vn
+                    Author: Nguyen Tan Toan, Pham Huy Phat
                 </Text>
             </Pane>
             <img
