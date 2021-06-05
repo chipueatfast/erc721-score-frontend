@@ -16,6 +16,7 @@ import './index.d';
 import { Header } from 'component/Header';
 import { SearchPage } from 'pages/SearchPage';
 import { UpdateTokenPage } from 'pages/UpdateTokenPage';
+import HomePage from 'pages/HomePage';
 
 function App() {
   const [isEthEnabled, setIsEthEnabled] = useState<boolean>(false);
@@ -59,6 +60,9 @@ function App() {
                 </Route>
                 <Route path='/search'>
                   <SearchPage />
+                </Route>
+                <Route path='/'>
+                  <HomePage />
                 </Route>
               </Switch>      
           </div>

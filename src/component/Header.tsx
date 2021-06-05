@@ -23,21 +23,23 @@ export function Header(props: IProps) {
               flexDirection='row'
               
             >
-                <Pane
-                    marginRight={majorScale(2)}
-                >
-                    <img
-                        alt='logo'
-                        style={
-                            {
-                                width: 24,
-                                height: 24,
+               <a href='/'>
+                    <Pane
+                        marginRight={majorScale(2)}
+                    >
+                        <img
+                            alt='logo'
+                            style={
+                                {
+                                    width: 24,
+                                    height: 24,
+                                }
                             }
-                        }
-                        src='https://image.flaticon.com/icons/png/512/326/326909.png'
-                    />
-
-                </Pane>
+                            src='https://image.flaticon.com/icons/png/512/326/326909.png'
+                        />
+    
+                    </Pane>
+               </a>
                 <HeaderItem
                     headerHref='/mint'
                     headerName='Mint'
