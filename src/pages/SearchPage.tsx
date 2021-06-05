@@ -3,10 +3,13 @@ import { Button, majorScale, Pane, SearchInput, Text } from 'evergreen-ui';
 import { Formik } from 'formik';
 import { getScoreHash } from 'services/getScoreHash';
 import { ResultScoreSheetV2 } from './candidate-page-components/ResultScoreSheetV2';
+import { getOwnerBytokenId } from 'services/getOwnerBytokenId';
 
 export function SearchPage() {
     const [tokenId, setTokenId] = useState<number | null>(null);
     const [scoreHash, setScoreHash] = useState<string>('');
+    const [judgeAddress, setJudgeAddress] = useState<string>('');
+
     return (
         <Pane>
             <Formik
@@ -17,6 +20,9 @@ export function SearchPage() {
                     getScoreHash({
                         tokenId: Number(values.tokenId),
                     }).then(setScoreHash);
+                    getOwnerBytokenId({
+                        tokenId: Number(values.tokenId),
+                    }).then(setJudgeAddress);
                     setTokenId(Number(values.tokenId));
                 }}
             >
@@ -46,7 +52,7 @@ export function SearchPage() {
                             }
                         </Formik>
                         {(!!tokenId || tokenId === 0) && !scoreHash && <Text>NOT FOUND ON BLOCKCHAIN</Text>}
-                        {(!!tokenId || tokenId === 0) && !!scoreHash && <ResultScoreSheetV2 givenScoreHash={scoreHash} tokenId={tokenId} />}
+                        {(!!tokenId || tokenId === 0) && !!judgeAddress && !!scoreHash && <ResultScoreSheetV2 judgeAddress={judgeAddress} givenScoreHash={scoreHash} tokenId={tokenId} />}
                     </Pane>
     );
 }

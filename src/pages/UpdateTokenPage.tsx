@@ -43,7 +43,10 @@ export function UpdateTokenPage(props: IProps) {
                                         if (!state) {
                                             state={};
                                         }
-                                        state[tokenId]=values;
+                                        state[tokenId]={
+                                            ...values,
+                                            createdDate: (new Date()).toString(),
+                                        };
                                         return {...state};
                                     }
                                 }).then(() => {});

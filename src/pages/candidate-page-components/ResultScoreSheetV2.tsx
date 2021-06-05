@@ -3,20 +3,33 @@ import { FirebaseDatabaseNode } from '@react-firebase/database';
 import { scoreSheetPath } from 'firebase-service/scoreSheetPath';
 import { convertScoreFormToScoreHash } from 'services/convertScoreFormToScoreHash';
 import { Alert, Card, majorScale, Pane, Strong, Text } from 'evergreen-ui';
+import firebase from 'firebase/app';
 
 interface IProps {
     tokenId: number;
     givenScoreHash: string;
+    judgeAddress: string;
 }
 
 export function ResultScoreSheetV2(props: IProps) {
     const [refresh, setRefresh] = useState(false);
+    const [judgeName, setJudgeName] = useState('');
+    React.useEffect(() => {
+        const ref = firebase.database().ref(`judge/${props.judgeAddress}`);
+        ref.get().then((snapshot) => {
+            if (snapshot.exists()) {
+                setJudgeName(snapshot.val().name);
+              } else {
+                console.log("No data available");
+              }
+        })
+    })
     useEffect(() => {
         setRefresh(true);
         setTimeout(() => {
             setRefresh(false);
         }, 0);
-    }, [props.tokenId]);
+    }, [props.tokenId, judgeName]);
     if (refresh) {
         return null;
     }
@@ -27,9 +40,7 @@ export function ResultScoreSheetV2(props: IProps) {
                 scoreSheet => {
                     const calculatedScoreHash = scoreSheet.value ? convertScoreFormToScoreHash(scoreSheet.value) : '';
                     if (!scoreSheet.value) {
-                        return <Text>
-                            NOT FOUND
-                        </Text>
+                        return null;
                     }
                     return (
                     <div>
@@ -75,6 +86,34 @@ export function ResultScoreSheetV2(props: IProps) {
                                 </Strong>
                                 <Text>
                                     {scoreSheet.value.candidateAddress}
+                                </Text>
+                            </Pane>
+                            <Pane
+                                display='flex'
+                                flexDirection='row'
+                                justifyContent='space-between'
+                                marginBottom={majorScale(1)}
+
+                            >
+                                <Strong>
+                                    Created at:
+                                </Strong>
+                                <Text>
+                                    {scoreSheet.value.createdDate}
+                                </Text>
+                            </Pane>
+                            <Pane
+                                display='flex'
+                                flexDirection='row'
+                                justifyContent='space-between'
+                                marginBottom={majorScale(2)}
+
+                            >
+                                <Strong>
+                                    By judge:
+                                </Strong>
+                                <Text>
+                                    {judgeName}
                                 </Text>
                             </Pane>
                             {

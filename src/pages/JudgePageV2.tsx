@@ -1,6 +1,6 @@
 import React from 'react';
 import { FirebaseDatabaseTransaction } from '@react-firebase/database';
-import { Pane, TextInput, Card, Button, majorScale, Select, Alert } from 'evergreen-ui';
+import { Pane, TextInput, Card, Button, majorScale, Select, Alert, Text } from 'evergreen-ui';
 import {Formik} from 'formik';
 import { mintAToken } from 'services/mintAToken';
 import { convertScoreFormToScoreHash } from 'services/convertScoreFormToScoreHash';
@@ -31,6 +31,7 @@ export function JudgePageV2(props: IProps) {
                             mintAToken({
                                 scoreHash: convertScoreFormToScoreHash({
                                     ...values,
+                                    createdDate: (new Date()).toString(),
                                 } as IScore),
                                 toAddress: values.candidateAddress,
                                 fromAddress: props.userAddress,
