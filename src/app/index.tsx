@@ -9,12 +9,10 @@ import {
 import firebase from 'firebase/app';
 import 'firebase/database';
 import { config } from 'firebase-service/config';
-import { JudgePage } from 'pages/JudgePage';
 import { JudgePageV2 } from 'pages/JudgePageV2';
 import { askForConnect } from 'services/askForConnect';
 import { getWeb3 } from 'GlobalContext';
 import './index.d';
-import { CandidatePage } from 'pages/CandidatePage';
 import { Header } from 'component/Header';
 import { SearchPage } from 'pages/SearchPage';
 import { UpdateTokenPage } from 'pages/UpdateTokenPage';
@@ -49,7 +47,7 @@ function App() {
                 userAddress={userAddress}
               />
               <Switch>
-                <Route path='/judge'>
+                <Route path='/mint'>
                   <JudgePageV2
                     userAddress={userAddress}
                   />
@@ -61,9 +59,6 @@ function App() {
                 </Route>
                 <Route path='/search'>
                   <SearchPage />
-                </Route>
-                <Route path='/candidate'>
-                  <CandidatePage />
                 </Route>
               </Switch>      
           </div>

@@ -1,4 +1,5 @@
 import { getContract } from 'smart-contract/erc721-score';
+import { parseEVMErrorMessage } from 'utils/parseEVMErrorMessage';
 
 export async function updateScoreToken({
     tokenId,
@@ -28,7 +29,7 @@ export async function updateScoreToken({
         }
         catch (error) {
             return resolve({
-                errorMessage: error.message,
+                errorMessage: parseEVMErrorMessage(error.message),
             });
         }
     });

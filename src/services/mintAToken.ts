@@ -1,4 +1,5 @@
 import { getContract } from 'smart-contract/erc721-score';
+import { parseEVMErrorMessage } from 'utils/parseEVMErrorMessage';
 
 export async function mintAToken({
     fromAddress,
@@ -30,7 +31,7 @@ export async function mintAToken({
 
         } catch (error) {
             return resolve({
-                errorMessage: error.message,
+                errorMessage: parseEVMErrorMessage(error.message),
             });
         }
     })

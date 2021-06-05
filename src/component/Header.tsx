@@ -1,5 +1,6 @@
 import React from 'react';
 import { Code, Link, majorScale, Pane, Strong } from 'evergreen-ui';
+import HeaderItem from './HeaderItem';
 
 interface IProps {
     userAddress: string;
@@ -17,27 +18,38 @@ export function Header(props: IProps) {
             borderBottom
             marginBottom={majorScale(3)}
         >
-            <Pane>
-                <Link
-                    href='/judge'
-                    marginRight={majorScale(1)}
+            <Pane
+              display='flex'
+              flexDirection='row'
+              
+            >
+                <Pane
+                    marginRight={majorScale(2)}
                 >
-                    Mint
-                </Link>
-                <Link
-                    marginRight={majorScale(1)}
-                    href='/update'
-                >
-                    Update
-                </Link>
-                <Link
-                    href='/search'
-                    marginRight={majorScale(1)}
-                >
-                    Search
-                </Link>
+                    <img
+                        alt='logo'
+                        style={
+                            {
+                                width: 24,
+                                height: 24,
+                            }
+                        }
+                        src='https://image.flaticon.com/icons/png/512/326/326909.png'
+                    />
 
-
+                </Pane>
+                <HeaderItem
+                    headerHref='/mint'
+                    headerName='Mint'
+                />
+                <HeaderItem
+                    headerHref='/update'
+                    headerName='Update'
+                />
+                <HeaderItem
+                    headerHref='/search'
+                    headerName='Search'
+                />
             </Pane>
             <Pane>
                 <Strong>
