@@ -31,7 +31,6 @@ export function JudgePageV2(props: IProps) {
                             mintAToken({
                                 scoreHash: convertScoreFormToScoreHash({
                                     ...values,
-                                    createdDate: (new Date()).toString(),
                                 } as IScore),
                                 toAddress: values.candidateAddress,
                                 fromAddress: props.userAddress,
@@ -43,7 +42,7 @@ export function JudgePageV2(props: IProps) {
                                         if (!state) {
                                             state={};
                                         }
-                                        state[tokenId]=values;
+                                        state[tokenId]={...values,  createdDate: (new Date()).toString()};
                                         return {...state};
                                     }
                                 }).then(() => {});
