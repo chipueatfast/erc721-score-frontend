@@ -56,11 +56,11 @@ function App() {
                   <Route path='/judgeV3'>
                     <JudgePageV3 />
                   </Route>
-                  <Route path='/:roomId/result-exam-room'>
+                  <Route path='/:subject/:roomId/result-exam-room'>
                     {
                       (routeProps) => {
-                        if (routeProps.match?.params.roomId) {
-                          return <ResultExamRoomPage roomId={routeProps.match?.params.roomId} />
+                        if (routeProps.match?.params.roomId && routeProps.match?.params.subject) {
+                          return <ResultExamRoomPage subject={routeProps.match.params.subject} roomId={routeProps.match?.params.roomId} />
                         }
                       }
                     }

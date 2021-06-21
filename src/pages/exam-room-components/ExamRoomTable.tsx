@@ -1,13 +1,16 @@
 import React from 'react';
 import {Pane, Table, TableHeaderCell} from 'evergreen-ui';
 import {FirebaseDatabaseNode} from '@react-firebase/database';
+import { useHistory } from 'react-router-dom';
 
 export function ExamRoomTable({userAddress} : {
     userAddress: string;
 }) {
+    const history = useHistory();
     if (!userAddress) {
         return null;
     }
+
 
     return (
         <FirebaseDatabaseNode path={`examRoom/${userAddress}`}>
@@ -15,7 +18,6 @@ export function ExamRoomTable({userAddress} : {
                 if (!examRooms.value) {
                     return null;
                 }
-                console.log(examRooms.value);
                 return (
                     <Pane>
                         <Table>
@@ -24,7 +26,7 @@ export function ExamRoomTable({userAddress} : {
                                     Room name
                                 </TableHeaderCell>
                                 <TableHeaderCell>
-                                    Exam object
+                                    Exam subject
                                 </TableHeaderCell>
                                 <TableHeaderCell>
                                     Date created
@@ -34,11 +36,18 @@ export function ExamRoomTable({userAddress} : {
                                 {
                                     Object.keys(examRooms.value).map((k: string) => {
                                         const r: {
+                                            id: string;
                                             name: string;
                                             subject: string;
                                             createdDate: string;
                                         } = examRooms.value[k];
-                                        return (<Table.Row>
+                                        return (<Table.Row
+                                            key={r.id}
+                                            isSelectable
+                                            onSelect={() => {
+                                                history.push(`/${r.subject}/${r.id}/result-exam-room`)
+                                            }}
+                                        >
                                             <Table.TextCell>
                                                 {r.name}
                                             </Table.TextCell>

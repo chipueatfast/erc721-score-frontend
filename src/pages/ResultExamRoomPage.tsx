@@ -1,15 +1,17 @@
 import React from 'react';
+import { Pane } from 'evergreen-ui';
+import AddCandidateForm from './result-exam-room-components/AddCandidateForm';
+import ResultTable from './result-exam-room-components/ResultTable';
 
-function ResultExamRoomPage({
-    roomId,
-}: {
-   roomId: string;
+function ResultExamRoomPage({roomId, subject} : {
+    roomId: string;
+    subject: string;
 }) {
-    console.log(roomId);
     return (
-        <div>
-            
-        </div>
+        <Pane>
+            <AddCandidateForm subject={subject} roomId={roomId} />
+            <ResultTable roomId={roomId} />
+        </Pane>
     );
 }
 
