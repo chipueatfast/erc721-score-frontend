@@ -40,6 +40,11 @@ export function Header(props: IProps) {
     
                     </Pane>
                </a>
+               <HeaderItem
+                    headerName='Judge'
+                    headerHref='/judgeV3'
+
+               />
                 <HeaderItem
                     headerHref='/mint'
                     headerName='Mint'

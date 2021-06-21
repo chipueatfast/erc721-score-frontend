@@ -17,6 +17,10 @@ import { Header } from 'component/Header';
 import { SearchPage } from 'pages/SearchPage';
 import { UpdateTokenPage } from 'pages/UpdateTokenPage';
 import HomePage from 'pages/HomePage';
+import JudgePageV3 from 'pages/JudgePageV3';
+import ExamRoomPage from 'pages/ExamRoomPage';
+import { UserAddressContext } from '../context/userAddressContext';
+import ResultExamRoomPage from 'pages/ResultExamRoomPage';
 
 function App() {
   const [isEthEnabled, setIsEthEnabled] = useState<boolean>(false);
@@ -42,31 +46,48 @@ function App() {
 
   return (
       <FirebaseDatabaseProvider firebase={firebase} {...config}>
-      <Router>
-        <div className="App">     
-              <Header
-                userAddress={userAddress}
-              />
-              <Switch>
-                <Route path='/mint'>
-                  <JudgePageV2
-                    userAddress={userAddress}
-                  />
-                </Route>
-                <Route path='/update'>
-                  <UpdateTokenPage 
-                    userAddress={userAddress} 
-                  />
-                </Route>
-                <Route path='/search'>
-                  <SearchPage />
-                </Route>
-                <Route path='/'>
-                  <HomePage />
-                </Route>
-              </Switch>      
-          </div>
-        </Router>
+      <UserAddressContext.Provider value={userAddress}>
+        <Router>
+          <div className="App">     
+                <Header
+                  userAddress={userAddress}
+                />
+                <Switch>
+                  <Route path='/judgeV3'>
+                    <JudgePageV3 />
+                  </Route>
+                  <Route path='/:roomId/result-exam-room'>
+                    {
+                      (routeProps) => {
+                        if (routeProps.match?.params.roomId) {
+                          return <ResultExamRoomPage roomId={routeProps.match?.params.roomId} />
+                        }
+                      }
+                    }
+                  </Route>
+                  <Route path='/exam-room'>
+                    <ExamRoomPage />
+                  </Route>
+                  <Route path='/mint'>
+                    <JudgePageV2
+                      userAddress={userAddress}
+                    />
+                  </Route>
+                  <Route path='/update'>
+                    <UpdateTokenPage 
+                      userAddress={userAddress} 
+                    />
+                  </Route>
+                  <Route path='/search'>
+                    <SearchPage />
+                  </Route>
+                  <Route path='/'>
+                    <HomePage />
+                  </Route>
+                </Switch>      
+            </div>
+          </Router>
+      </UserAddressContext.Provider>
       </FirebaseDatabaseProvider>
   );
 }
