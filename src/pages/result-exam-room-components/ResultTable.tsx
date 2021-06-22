@@ -1,9 +1,11 @@
 import React from 'react';
 import { FirebaseDatabaseNode } from '@react-firebase/database';
-import { Button, Pane, Table } from 'evergreen-ui';
+import { Pane, Table } from 'evergreen-ui';
+import ResultRow from './ResultRow';
 
 function ResultTable(props: {
     roomId: string;
+    subject: string;
 }) {
     return (
         <FirebaseDatabaseNode path={`candidate-results/${props.roomId}`}>
@@ -15,6 +17,9 @@ function ResultTable(props: {
                     return (<Pane>
                         <Table>
                             <Table.Head>
+                                <Table.HeaderCell>
+                                    TokenID
+                                </Table.HeaderCell>
                                 <Table.HeaderCell>
                                     Candidate name
                                 </Table.HeaderCell>
@@ -38,28 +43,9 @@ function ResultTable(props: {
                                     name: string;
                                     id: string;
                                     score: number;
+                                    tokenId: number;
                                 } = results.value[k];
-                                return (<Table.Row key={scoreSheet.id}>
-                                    <Table.TextCell>
-                                        {scoreSheet.name}
-                                    </Table.TextCell>
-                                    <Table.TextCell>
-                                        {scoreSheet.id}
-                                    </Table.TextCell>
-                                    <Table.TextCell>
-                                        {scoreSheet.score}
-                                    </Table.TextCell>
-                                    <Table.TextCell>
-                                        false
-                                    </Table.TextCell>
-                                    <Table.Cell>
-                                        <Pane>
-                                            <Button>
-                                                Edit
-                                            </Button>
-                                        </Pane>
-                                    </Table.Cell>
-                                </Table.Row>);
+                                return (<ResultRow subject={props.subject} {...scoreSheet} roomId={props.roomId} />)
                             })
                         }
 

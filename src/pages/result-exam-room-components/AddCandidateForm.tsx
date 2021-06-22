@@ -31,6 +31,7 @@ function AddCandidateForm(props : {
                 if (result.reponse && result.reponse.tokenId) {
                     const tokenId = result.reponse.tokenId;
                     addCandidateToFirebaseService({
+                        tokenId,
                         roomId: props.roomId,
                         ethAddress: values.ethAddress,
                         candidateName: values.name,

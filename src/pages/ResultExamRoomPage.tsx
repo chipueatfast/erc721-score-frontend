@@ -10,7 +10,7 @@ function ResultExamRoomPage({roomId, subject} : {
     return (
         <Pane>
             <AddCandidateForm subject={subject} roomId={roomId} />
-            <ResultTable roomId={roomId} />
+            <ResultTable subject={subject} roomId={roomId} />
         </Pane>
     );
 }
