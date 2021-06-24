@@ -1,10 +1,11 @@
 import React from 'react';
-import {Alert, Button, Card, majorScale, Pane, TextInput} from 'evergreen-ui';
+import {Alert, Button, Card, majorScale, Pane, TextInput, toaster} from 'evergreen-ui';
 import {Formik} from 'formik';
 import {addCandidateToFirebaseService} from 'firebase-service/addCandidateToFirebaseService';
 import {mintAToken} from 'services/mintAToken';
 import {convertScoreFormToScoreHash} from 'services/convertScoreFormToScoreHash';
 import {UserAddressContext} from 'context/userAddressContext';
+import { getExamRoomDocument } from 'firebase-service/getExamRoomDocument';
 
 function AddCandidateForm(props : {
     roomId: string;
@@ -22,7 +23,14 @@ function AddCandidateForm(props : {
             name: '',
             score: ''
         }}
-            onSubmit={async(values, actions) => {
+            onSubmit={async (values, actions) => {
+            const registeredAddresses = await getExamRoomDocument({
+                roomId: props.roomId,
+            });
+            if (!!registeredAddresses && Object.keys(registeredAddresses).includes(values.ethAddress)) {
+                toaster.danger('This candidate address already have a score result!');
+                return;
+            }
             await mintAToken({
                 scoreHash: convertScoreFormToScoreHash({subject: props.subject, score: values.score, candidateAddress: values.ethAddress}),
                 toAddress: values.ethAddress,

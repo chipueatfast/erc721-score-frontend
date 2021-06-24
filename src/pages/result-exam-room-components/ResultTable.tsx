@@ -45,7 +45,7 @@ function ResultTable(props: {
                                     score: number;
                                     tokenId: number;
                                 } = results.value[k];
-                                return (<ResultRow subject={props.subject} {...scoreSheet} roomId={props.roomId} />)
+                                return (<ResultRow key={scoreSheet.id} subject={props.subject} {...scoreSheet} roomId={props.roomId} />)
                             })
                         }
 
