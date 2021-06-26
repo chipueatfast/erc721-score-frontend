@@ -4,8 +4,11 @@ import { scoreSheetPath } from 'firebase-service/scoreSheetPath';
 import { convertScoreFormToScoreHash } from 'services/convertScoreFormToScoreHash';
 import { Alert, Card, majorScale, Pane, Strong, Text } from 'evergreen-ui';
 import firebase from 'firebase/app';
+import { getAllScoreToken } from 'firebase-service/getAllScoreToken';
 
 interface IProps {
+    roomId: string;
+    candidateAddress: string;
     tokenId: number;
     givenScoreHash: string;
     judgeAddress: string;
@@ -16,6 +19,9 @@ export function ResultScoreSheetV2(props: IProps) {
     const [judgeName, setJudgeName] = useState('');
     React.useEffect(() => {
         const ref = firebase.database().ref(`judge/${props.judgeAddress}`);
+        getAllScoreToken().then((allScoreTokens) => {
+            console.log(allScoreTokens);
+        });
         ref.get().then((snapshot) => {
             if (snapshot.exists()) {
                 setJudgeName(snapshot.val().name);
@@ -35,10 +41,14 @@ export function ResultScoreSheetV2(props: IProps) {
     }
 
     return (
-        <FirebaseDatabaseNode path={`${scoreSheetPath}/${props.tokenId}`}>
+        <FirebaseDatabaseNode path={`candidate-results/${props.roomId}/${props.candidateAddress}`}>
             {
                 scoreSheet => {
-                    const calculatedScoreHash = scoreSheet.value ? convertScoreFormToScoreHash(scoreSheet.value) : '';
+                    const calculatedScoreHash = scoreSheet.value ? convertScoreFormToScoreHash({
+                        ...scoreSheet.value,
+                        candidateAddress: scoreSheet.value.id,
+                        
+                    }) : '';
                     if (!scoreSheet.value) {
                         return null;
                     }
@@ -85,7 +95,7 @@ export function ResultScoreSheetV2(props: IProps) {
                                     Candidate Addr.:
                                 </Strong>
                                 <Text>
-                                    {scoreSheet.value.candidateAddress}
+                                    {scoreSheet.value.id}
                                 </Text>
                             </Pane>
                             <Pane

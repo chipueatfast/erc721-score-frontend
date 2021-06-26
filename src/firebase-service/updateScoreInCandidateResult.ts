@@ -4,6 +4,7 @@ export async function updateScoreInCandidateResult(args: {
     roomId: string;
     tokenId: number;
     ethAddress: string;
+    subject: string;
     newScore: number;
     candidateName: string
 }): Promise<void> {
@@ -11,6 +12,7 @@ export async function updateScoreInCandidateResult(args: {
         id: args.ethAddress,
         name: args.candidateName,
         score: args.newScore,
+        subject: args.subject,
         createdDate: (new Date()).toString(),
         tokenId: args.tokenId,
     });

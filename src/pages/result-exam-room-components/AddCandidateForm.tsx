@@ -40,6 +40,7 @@ function AddCandidateForm(props : {
                     const tokenId = result.reponse.tokenId;
                     addCandidateToFirebaseService({
                         tokenId,
+                        subject: props.subject,
                         roomId: props.roomId,
                         ethAddress: values.ethAddress,
                         candidateName: values.name,

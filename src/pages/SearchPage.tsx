@@ -4,9 +4,14 @@ import { Formik } from 'formik';
 import { getScoreHash } from 'services/getScoreHash';
 import { ResultScoreSheetV2 } from './candidate-page-components/ResultScoreSheetV2';
 import { getOwnerBytokenId } from 'services/getOwnerBytokenId';
+import { getAllScoreToken } from 'firebase-service/getAllScoreToken';
 
 export function SearchPage() {
-    const [tokenId, setTokenId] = useState<number | null>(null);
+    const [tokenInfo, setTokenInfo] = useState<{
+        tokenId: number;
+        roomId: string;
+        candidateAddress: string;
+    } | null>(null);
     const [scoreHash, setScoreHash] = useState<string>('');
     const [judgeAddress, setJudgeAddress] = useState<string>('');
 
@@ -23,7 +28,17 @@ export function SearchPage() {
                     getOwnerBytokenId({
                         tokenId: Number(values.tokenId),
                     }).then(setJudgeAddress);
-                    setTokenId(Number(values.tokenId));
+                    getAllScoreToken().then(rs => {
+                        const toFindToken = rs.find(token => token.tokenId === values.tokenId);
+                        if (toFindToken) {
+                            debugger
+                            setTokenInfo({
+                                roomId: toFindToken?.roomId,
+                                tokenId: Number(values.tokenId),
+                                candidateAddress: toFindToken.id,       
+                            });
+                        }
+                    });
                 }}
             >
                 {
@@ -51,8 +66,14 @@ export function SearchPage() {
                                 }
                             }
                         </Formik>
-                        {(!!tokenId || tokenId === 0) && !scoreHash && <Text>NOT FOUND ON BLOCKCHAIN</Text>}
-                        {(!!tokenId || tokenId === 0) && !!judgeAddress && !!scoreHash && <ResultScoreSheetV2 judgeAddress={judgeAddress} givenScoreHash={scoreHash} tokenId={tokenId} />}
+                        {(tokenInfo && (!!tokenInfo.tokenId || tokenInfo.tokenId === 0)) && !scoreHash && <Text>NOT FOUND ON BLOCKCHAIN</Text>}
+                        {(tokenInfo && (!!tokenInfo.tokenId || tokenInfo.tokenId === 0)) && !!judgeAddress && !!scoreHash && <ResultScoreSheetV2 
+                            judgeAddress={judgeAddress} 
+                            givenScoreHash={scoreHash} 
+                            candidateAddress={tokenInfo.candidateAddress}
+                            tokenId={tokenInfo.tokenId} 
+                            roomId={tokenInfo.roomId}
+                        />}
                     </Pane>
     );
 }

@@ -58,6 +58,7 @@ function ResultRow(props : {
                         if (result.reponse && result.reponse.tokenId) {
                             const tokenId = result.reponse.tokenId;
                             updateScoreInCandidateResult({
+                                subject: props.subject,
                                 roomId: props.roomId,
                                 candidateName: props.name,
                                 tokenId: props.tokenId,
