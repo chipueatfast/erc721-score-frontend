@@ -16,7 +16,7 @@ export function SearchPage() {
     const [judgeAddress, setJudgeAddress] = useState<string>('');
 
     return (
-        <Pane>
+        <Pane display='flex' justifyContent='center' flexDirection='column' alignItems='center'>
             <Formik
                initialValues={{
                     tokenId: '',

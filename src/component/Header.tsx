@@ -42,17 +42,9 @@ export function Header(props: IProps) {
                </a>
                <HeaderItem
                     headerName='Judge'
-                    headerHref='/judgeV3'
+                    headerHref='/exam-room'
 
                />
-                <HeaderItem
-                    headerHref='/mint'
-                    headerName='Mint'
-                />
-                <HeaderItem
-                    headerHref='/update'
-                    headerName='Update'
-                />
                 <HeaderItem
                     headerHref='/search'
                     headerName='Search'

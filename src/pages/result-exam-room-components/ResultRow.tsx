@@ -1,5 +1,5 @@
 import { UserAddressContext } from 'context/userAddressContext';
-import {Button, Dialog, majorScale, Pane, Table, TextInput, toaster} from 'evergreen-ui';
+import {BanCircleIcon, Button, Dialog, majorScale, Pane, Table, TextInput, TickCircleIcon, toaster} from 'evergreen-ui';
 import { updateScoreInCandidateResult } from 'firebase-service/updateScoreInCandidateResult';
 import { Formik } from 'formik';
 import React from 'react';
@@ -14,6 +14,7 @@ function ResultRow(props : {
     score: number;
     subject: string;
     tokenId: number;
+    position: number;
 }) {
     const userAddress = React.useContext(UserAddressContext);
     const [scoreHash,
@@ -104,7 +105,7 @@ function ResultRow(props : {
                     )
                 }}
             </Formik>
-            <Table.Row key={props.id}>
+            <Table.Row intent={props.position % 2 === 0 ? 'warning' : 'none' } key={props.id}>
                 <Table.TextCell>
                     {props.tokenId}
                 </Table.TextCell>
@@ -119,8 +120,8 @@ function ResultRow(props : {
                 </Table.TextCell>
                 <Table.TextCell>
                     {scoreHash === calculatedScoreHash
-                        ? 'true'
-                        : 'false'}
+                        ? <TickCircleIcon color="success" marginRight={16} />
+                        : <BanCircleIcon color="danger" marginRight={16} />}
                 </Table.TextCell>
                 <Table.Cell>
                     <Pane>

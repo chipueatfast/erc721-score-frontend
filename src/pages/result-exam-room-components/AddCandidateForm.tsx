@@ -88,8 +88,8 @@ function AddCandidateForm(props : {
                                 width='100%'
                                 placeholder='Score'/>
                         </Pane>
-                        <Pane marginBottom={majorScale(2)}>
-                            <Button onClick={() => handleSubmit()}>
+                        <Pane marginBottom={majorScale(2)} display='flex' justifyContent='flex-end'>
+                            <Button onClick={() => handleSubmit()} appearance='primary'>
                                 Add candidate
                             </Button>
                         </Pane>

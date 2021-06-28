@@ -1,6 +1,6 @@
 import React from 'react';
 import { FirebaseDatabaseNode } from '@react-firebase/database';
-import { Pane, Table } from 'evergreen-ui';
+import { majorScale, Pane, Table } from 'evergreen-ui';
 import ResultRow from './ResultRow';
 
 function ResultTable(props: {
@@ -14,7 +14,7 @@ function ResultTable(props: {
                     if (!results || !results.value) {
                         return null;
                     }
-                    return (<Pane>
+                    return (<Pane marginBottom={majorScale(10)}>
                         <Table>
                             <Table.Head>
                                 <Table.HeaderCell>
@@ -38,14 +38,14 @@ function ResultTable(props: {
                             </Table.Head>                        
                         </Table>
                         {
-                            Object.keys(results.value).map((k: string) => {
+                            Object.keys(results.value).map((k: string, index: number) => {
                                 const scoreSheet: {
                                     name: string;
                                     id: string;
                                     score: number;
                                     tokenId: number;
                                 } = results.value[k];
-                                return (<ResultRow key={scoreSheet.id} subject={props.subject} {...scoreSheet} roomId={props.roomId} />)
+                                return (<ResultRow position={index} key={scoreSheet.id} subject={props.subject} {...scoreSheet} roomId={props.roomId} />)
                             })
                         }
 

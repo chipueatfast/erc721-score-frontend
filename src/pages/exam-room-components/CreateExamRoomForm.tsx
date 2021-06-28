@@ -60,10 +60,11 @@ function CreateExamRoomForm({
                                 width='100%'
                                 placeholder='Exam room name'/>
                         </Pane>
-
-                        <Button onClick={() => handleSubmit()}>
-                            Create exam room
-                        </Button>
+                        <Pane marginBottom={majorScale(2)} display='flex' justifyContent='flex-end'>
+                            <Button appearance='primary' onClick={() => handleSubmit()}>
+                                Create exam room
+                            </Button>
+                        </Pane>
                     </Card>
                 )
             }

@@ -34,7 +34,7 @@ export function ExamRoomTable({userAddress} : {
                             </Table.Head>
                             <Table.Body>
                                 {
-                                    Object.keys(examRooms.value).map((k: string) => {
+                                    Object.keys(examRooms.value).map((k: string, index: number) => {
                                         const r: {
                                             id: string;
                                             name: string;
@@ -42,6 +42,7 @@ export function ExamRoomTable({userAddress} : {
                                             createdDate: string;
                                         } = examRooms.value[k];
                                         return (<Table.Row
+                                            intent={index % 2 === 0 ? 'warning' : 'none'}
                                             key={r.id}
                                             isSelectable
                                             onSelect={() => {
