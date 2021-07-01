@@ -43,6 +43,7 @@ export function Header(props: IProps) {
                <HeaderItem
                     headerName='Judge'
                     headerHref='/exam-room'
+                    activatedList={['/:subject/:roomId/result-exam-room']}
 
                />
                 <HeaderItem

@@ -1,13 +1,18 @@
 import React from 'react';
 import { Link, majorScale } from 'evergreen-ui';
-
+import { matchPath } from 'react-router-dom';
 interface IProps {
     headerName: string;
     headerHref: string;
+    activatedList?: string[];
 }
 
 function HeaderItem(props: IProps) {
-    const isActive = props.headerHref === window.location.pathname;
+
+
+    const isActive = [props.headerHref, ...props.activatedList || []].reduce((acc, val) => {
+        return acc || !!matchPath(window.location.pathname, {path: val});
+    }, false);
 
     return (
         <Link
