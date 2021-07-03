@@ -1,12 +1,27 @@
 import React from 'react';
-import { Code, Link, majorScale, Pane, Strong } from 'evergreen-ui';
+import { useEffect } from 'react';
+import { Code, Paragraph, majorScale, Text, Pane, Position, Strong, Tooltip } from 'evergreen-ui';
 import HeaderItem from './HeaderItem';
+import { detectRole } from 'firebase-service/detectRole';
+
 
 interface IProps {
     userAddress: string;
 }
 
 export function Header(props: IProps) {
+    const [role, setRole] = React.useState('');
+    const [displayName, setDisplayName] = React.useState('');
+    useEffect(() => {
+        if (props.userAddress) {
+            detectRole({
+                userAddress: props.userAddress
+            }).then(rs => {
+                setRole(rs.role);
+                setDisplayName(rs.titleName);
+            })
+        }
+    }, [props.userAddress])
     return (
         <Pane
             height={majorScale(8)}
@@ -40,24 +55,32 @@ export function Header(props: IProps) {
     
                     </Pane>
                </a>
-               <HeaderItem
-                    headerName='Judge'
-                    headerHref='/exam-room'
-                    activatedList={['/:subject/:roomId/result-exam-room']}
-
-               />
+               {
+                   role === 'JUDGE' &&
+                   <HeaderItem
+                        headerName='Judge'
+                        headerHref='/exam-room'
+                        activatedList={['/:subject/:roomId/result-exam-room']}
+                    />
+               }
                 <HeaderItem
                     headerHref='/search'
                     headerName='Search'
                 />
             </Pane>
             <Pane>
-                <Strong>
-                    User address:&nbsp;
-                </Strong>
-                <Code>
-                    {props.userAddress}
-                </Code>
+                <Tooltip 
+                    content={<Pane overflow='hidden'>
+                        <Text textOverflow='ellipsis' color='white'>
+                        User address: {props.userAddress}
+                        </Text>
+                        </Pane>} 
+                    position={Position.LEFT}
+                >
+                    <Code>
+                        {displayName}
+                    </Code>
+                </Tooltip>
             </Pane>
         </Pane>
     );

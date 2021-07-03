@@ -30,8 +30,7 @@ export function SearchPage() {
                     }).then(setJudgeAddress);
                     getAllScoreToken().then(rs => {
                         const toFindToken = rs.find(token => token.tokenId === values.tokenId);
-                        if (toFindToken) {
-                            debugger
+                        if (toFindToken) {debugger
                             setTokenInfo({
                                 roomId: toFindToken?.roomId,
                                 tokenId: Number(values.tokenId),

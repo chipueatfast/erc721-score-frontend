@@ -1,7 +1,9 @@
-import { Heading, majorScale, Pane, Text } from 'evergreen-ui';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { Button, Heading, majorScale, Pane, Text } from 'evergreen-ui';
 
 function HomePage() {
+    const history = useHistory();
     return (
         <Pane
             display='flex'
@@ -21,6 +23,19 @@ function HomePage() {
                 managing exam score
             </Heading>
             
+            <Pane marginBottom={majorScale(1)}>
+                <Text>
+                    If you are a candidate, please register your Ethereum address by clicking&nbsp;
+                </Text>
+                <Button
+                    onClick={() => {
+                        history.push('/candidate/register');
+                    }}
+                >
+                    Register as a candidate
+                </Button>
+            </Pane>
+
             <Pane marginBottom={majorScale(1)}>
                 <Text textAlign='center'>
                     Author: Nguyen Tan Toan, Pham Huy Phat

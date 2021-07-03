@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 import firebase from 'firebase/app';
 import 'firebase/database';
@@ -21,6 +20,7 @@ import JudgePageV3 from 'pages/JudgePageV3';
 import ExamRoomPage from 'pages/ExamRoomPage';
 import { UserAddressContext } from '../context/userAddressContext';
 import ResultExamRoomPage from 'pages/ResultExamRoomPage';
+import CandidateRegisterPage from 'pages/CandidateRegisterPage';
 
 function App() {
   const [isEthEnabled, setIsEthEnabled] = useState<boolean>(false);
@@ -53,6 +53,9 @@ function App() {
                   userAddress={userAddress}
                 />
                 <Switch>
+                  <Route path='/candidate/register'>
+                    <CandidateRegisterPage />
+                  </Route>
                   <Route path='/judgeV3'>
                     <JudgePageV3 />
                   </Route>

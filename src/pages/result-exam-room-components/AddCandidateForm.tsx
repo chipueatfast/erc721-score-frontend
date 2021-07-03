@@ -1,11 +1,12 @@
 import React from 'react';
-import {Alert, Button, Card, majorScale, Pane, TextInput, toaster} from 'evergreen-ui';
+import {Alert, Autocomplete, Button, Card, majorScale, Pane, TextInput, toaster} from 'evergreen-ui';
 import {Formik} from 'formik';
 import {addCandidateToFirebaseService} from 'firebase-service/addCandidateToFirebaseService';
 import {mintAToken} from 'services/mintAToken';
 import {convertScoreFormToScoreHash} from 'services/convertScoreFormToScoreHash';
 import {UserAddressContext} from 'context/userAddressContext';
 import { getExamRoomDocument } from 'firebase-service/getExamRoomDocument';
+import { getCandidateAutocomplete } from 'firebase-service/getCandidateAutocomplete';
 
 function AddCandidateForm(props : {
     roomId: string;
@@ -16,6 +17,12 @@ function AddCandidateForm(props : {
     const [successMessage,
         setSuccessMessage] = React.useState < string > ('');
     const userAddress = React.useContext(UserAddressContext);
+    const [candidateList, setCandidateList] = React.useState<{ethAddress: string; name: string;}[]>([]);
+    React.useEffect(() => {
+        getCandidateAutocomplete().then(rs => {
+            setCandidateList(rs);
+        })
+    }, []);
     return (
         <Formik
             initialValues={{
@@ -54,7 +61,7 @@ function AddCandidateForm(props : {
                 actions.resetForm();
             })
         }}>
-            {({handleSubmit, handleChange, values}) => {
+            {({handleSubmit, handleChange, setFieldValue, values}) => {
                 return (
                     <Card
                         marginBottom={majorScale(2)}
@@ -65,15 +72,29 @@ function AddCandidateForm(props : {
                         paddingY={majorScale(2)}
                         paddingX={majorScale(4)}>
                         <Pane marginBottom={majorScale(2)}>
-                            <TextInput
-                                name='name'
-                                onChange={handleChange}
-                                value={values.name}
-                                width='100%'
-                                placeholder='Candidate name'/>
+                            <Autocomplete
+                                onChange={(changedItem: any) => setFieldValue('ethAddress', candidateList.find(c => c.name === changedItem)?.ethAddress)}
+                                items={candidateList.map(c => c.name)}
+                                >
+                                {(autoCompleteProps: any) => {
+                                    const { getInputProps, getRef } = autoCompleteProps;
+                                    return (
+                                    <TextInput
+                                        name='name'
+                                        onChange={handleChange}
+                                        value={values.name}
+                                        width='100%'
+                                        placeholder="Candidate name"
+                                        ref={getRef}
+                                        {...getInputProps()}
+                                    />
+                                    )
+                                }}
+                            </Autocomplete>
                         </Pane>
                         <Pane marginBottom={majorScale(2)}>
                             <TextInput
+                                disabled
                                 name='ethAddress'
                                 onChange={handleChange}
                                 value={values.ethAddress}
