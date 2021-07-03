@@ -55,14 +55,21 @@ export function Header(props: IProps) {
     
                     </Pane>
                </a>
-               {
+                {
                    role === 'JUDGE' &&
                    <HeaderItem
                         headerName='Judge'
                         headerHref='/exam-room'
                         activatedList={['/:subject/:roomId/result-exam-room']}
                     />
-               }
+                }
+                {
+                    role === 'CANDIDATE' &&
+                    <HeaderItem
+                        headerName='Candidate'
+                        headerHref='/candidate-profile'
+                    />
+                }
                 <HeaderItem
                     headerHref='/search'
                     headerName='Search'

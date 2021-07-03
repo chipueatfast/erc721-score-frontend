@@ -7,6 +7,7 @@ export async function getAllScoreToken(): Promise<{
     score: string;
     tokenId: string;
     roomId: string;
+    subject: string;
 }[]> {
     return firebase.database().ref(`candidate-results`).get().then(rs => {
         const value: {

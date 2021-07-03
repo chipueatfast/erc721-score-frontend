@@ -11,12 +11,14 @@ function ResultExamRoomPage({roomId, subject} : {
 }) {
     const userAddress = React.useContext(UserAddressContext);
     return (
-        <Pane marginX={majorScale(8)}>
-            <Pane display='flex' flexDirection='row'>
-                <RoomInfoCard subject={subject} roomId={roomId} judgeAddress={userAddress} />
-                <AddCandidateForm subject={subject} roomId={roomId} />
+        <Pane display='flex' justifyContent='center' flexDirection='column' alignItems='center'>
+            <Pane maxWidth={majorScale(128)} width='100%' marginX={majorScale(8)}>
+                <Pane display='flex' flexDirection='row'>
+                    <RoomInfoCard subject={subject} roomId={roomId} judgeAddress={userAddress} />
+                    <AddCandidateForm subject={subject} roomId={roomId} />
+                </Pane>
+                <ResultTable subject={subject} roomId={roomId} />
             </Pane>
-            <ResultTable subject={subject} roomId={roomId} />
         </Pane>
     );
 }

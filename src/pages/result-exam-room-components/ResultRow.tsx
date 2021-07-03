@@ -1,5 +1,5 @@
 import { UserAddressContext } from 'context/userAddressContext';
-import {BanCircleIcon, Button, Dialog, majorScale, Pane, Table, TextInput, TickCircleIcon, toaster} from 'evergreen-ui';
+import {BanCircleIcon, Button, Dialog, EditIcon, IconButton, majorScale, Pane, Table, TextInput, TickCircleIcon, toaster, Tooltip} from 'evergreen-ui';
 import { updateScoreInCandidateResult } from 'firebase-service/updateScoreInCandidateResult';
 import { Formik } from 'formik';
 import React from 'react';
@@ -67,6 +67,7 @@ function ResultRow(props : {
                                 newScore: values.score,
                             })
                         toaster.success(`The token ID ${tokenId} has been updated`)
+                        setShownDialog(false);
                     }
                     if ("errorMessage" in result && typeof result.errorMessage === 'string') {
                         toaster.danger(result.errorMessage);
@@ -125,9 +126,9 @@ function ResultRow(props : {
                 </Table.TextCell>
                 <Table.Cell>
                     <Pane>
-                        <Button onClick={() => setShownDialog(true)}>
-                            Edit
-                        </Button>
+                    <Tooltip content="Edit title">
+                        <IconButton onClick={() => setShownDialog(true)} icon={EditIcon} />
+                    </Tooltip>
                     </Pane>
                 </Table.Cell>
             </Table.Row>

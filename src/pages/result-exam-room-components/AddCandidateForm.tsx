@@ -73,16 +73,17 @@ function AddCandidateForm(props : {
                         paddingX={majorScale(4)}>
                         <Pane marginBottom={majorScale(2)}>
                             <Autocomplete
-                                onChange={(changedItem: any) => setFieldValue('ethAddress', candidateList.find(c => c.name === changedItem)?.ethAddress)}
+                                onChange={(changedItem: any) => {
+                                    setFieldValue('ethAddress', candidateList.find(c => c.name === changedItem)?.ethAddress);
+                                    setFieldValue('name', changedItem);
+
+                                }}
                                 items={candidateList.map(c => c.name)}
                                 >
                                 {(autoCompleteProps: any) => {
                                     const { getInputProps, getRef } = autoCompleteProps;
                                     return (
                                     <TextInput
-                                        name='name'
-                                        onChange={handleChange}
-                                        value={values.name}
                                         width='100%'
                                         placeholder="Candidate name"
                                         ref={getRef}

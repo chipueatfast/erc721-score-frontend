@@ -1,7 +1,9 @@
 import React from 'react';
-import {Pane, Table, TableHeaderCell} from 'evergreen-ui';
+import {Pane, Text , PanelTableIcon, Table, TableHeaderCell, majorScale, minorScale} from 'evergreen-ui';
 import {FirebaseDatabaseNode} from '@react-firebase/database';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
+import { mapSubjectValueToLabel } from 'utils/mapSubjectValueToLabel';
 
 export function ExamRoomTable({userAddress} : {
     userAddress: string;
@@ -15,9 +17,6 @@ export function ExamRoomTable({userAddress} : {
     return (
         <FirebaseDatabaseNode path={`examRoom/${userAddress}`}>
             {(examRooms) => {
-                if (!examRooms.value) {
-                    return null;
-                }
                 return (
                     <Pane>
                         <Table>
@@ -34,7 +33,15 @@ export function ExamRoomTable({userAddress} : {
                             </Table.Head>
                             <Table.Body>
                                 {
-                                    Object.keys(examRooms.value).map((k: string, index: number) => {
+                                    (!examRooms.value) ? (<Table.Row>
+                                        <Pane display='flex' alignItems='center' marginX={minorScale(3)}>
+                                            <Text>
+                                                No data yet
+                                            </Text>
+                                        </Pane>
+                                    </Table.Row>) :
+
+                                    (Object.keys(examRooms.value).map((k: string, index: number) => {
                                         const r: {
                                             id: string;
                                             name: string;
@@ -53,14 +60,14 @@ export function ExamRoomTable({userAddress} : {
                                                 {r.name}
                                             </Table.TextCell>
                                             <Table.TextCell>
-                                                {r.subject}
+                                                {mapSubjectValueToLabel(r.subject)}
                                             </Table.TextCell>
                                             <Table.TextCell>
-                                                {r.createdDate}
+                                                {moment(r.createdDate).format("MMM Do YYYY")}
                                             </Table.TextCell>
                                         </Table.Row>)
                                     })
-                                }
+                                    )}
                             </Table.Body>
                         </Table>
                     </Pane>

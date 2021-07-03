@@ -1,6 +1,6 @@
 import React from 'react';
 import { FirebaseDatabaseNode } from '@react-firebase/database';
-import { majorScale, Pane, Table } from 'evergreen-ui';
+import { majorScale, Text, minorScale, Pane, Table } from 'evergreen-ui';
 import ResultRow from './ResultRow';
 
 function ResultTable(props: {
@@ -11,9 +11,6 @@ function ResultTable(props: {
         <FirebaseDatabaseNode path={`candidate-results/${props.roomId}`}>
             {
                 (results) => {
-                    if (!results || !results.value) {
-                        return null;
-                    }
                     return (<Pane marginBottom={majorScale(10)}>
                         <Table>
                             <Table.Head>
@@ -38,6 +35,13 @@ function ResultTable(props: {
                             </Table.Head>                        
                         </Table>
                         {
+                            (!results || !results.value) ? (<Table.Row>
+                            <Pane display='flex' alignItems='center' marginX={minorScale(3)}>
+                                <Text>
+                                    No data yet
+                                </Text>
+                            </Pane>
+                        </Table.Row>) :
                             Object.keys(results.value).map((k: string, index: number) => {
                                 const scoreSheet: {
                                     name: string;

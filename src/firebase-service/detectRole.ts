@@ -9,18 +9,18 @@ export async function detectRole(args: {
     titleName: string;
     role: 'JUDGE' | 'CANDIDATE' | '';
 }> {
-    const candidateList = (await firebase.database().ref(`${candidatePath}`).get()).val();
-    if (doesKeyExistInObject(candidateList, args.userAddress)) {
-        return {
-            titleName: `Candidate ${candidateList[args.userAddress].name}`,
-            role: 'CANDIDATE' 
-        };
-    }
     const judgeList = (await firebase.database().ref(`${judgePath}`).get()).val();
     if (doesKeyExistInObject(judgeList, args.userAddress)) {
         return {
             titleName: `Judge ${judgeList[args.userAddress].name}`,
             role: 'JUDGE', 
+        };
+    }
+    const candidateList = (await firebase.database().ref(`${candidatePath}`).get()).val();
+    if (doesKeyExistInObject(candidateList, args.userAddress)) {
+        return {
+            titleName: `Candidate ${candidateList[args.userAddress].name}`,
+            role: 'CANDIDATE' 
         };
     }
     return {
