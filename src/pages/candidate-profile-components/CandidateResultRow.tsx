@@ -1,4 +1,5 @@
 import {BanCircleIcon, Table, TickCircleIcon} from 'evergreen-ui';
+import { getExamRoomNameByRoomId } from 'firebase-service/getExamRoomNameByRoomId';
 import moment from 'moment';
 import React from 'react';
 import {convertScoreFormToScoreHash} from 'services/convertScoreFormToScoreHash';
@@ -7,11 +8,16 @@ import { mapSubjectValueToLabel } from 'utils/mapSubjectValueToLabel';
 function CandidateResultRow(props : any) {
     const [scoreHash,
         setScoreHash] = React.useState('');
+    const [examName,
+        setExamName] = React.useState('');
     const {r, index} = props;
     React.useEffect(() => {
         getScoreHash({
-            tokenId: Number(props.tokenId)
+            tokenId: Number(props.r.tokenId)
         }).then(setScoreHash);
+        getExamRoomNameByRoomId({
+            roomId: props.r.roomId,
+        }).then(setExamName);
     }, [props.r.score]);
     const calculatedScoreHash = convertScoreFormToScoreHash({
         subject: r.subject,
@@ -30,6 +36,9 @@ function CandidateResultRow(props : any) {
             </Table.TextCell>
             <Table.TextCell>
                 {mapSubjectValueToLabel(r.subject)}
+            </Table.TextCell>
+            <Table.TextCell>
+                {examName}
             </Table.TextCell>
             <Table.TextCell>
                 {moment(r.createdDate).format("MMM Do YYYY")}

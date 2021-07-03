@@ -28,7 +28,7 @@ function CandidateProfilePage(props : IProps) {
         }
     }, [userAddress])
     return (
-        <Pane marginX={majorScale(32)}>
+        <Pane marginX={majorScale(16)}>
             <Table>
                 <Table.Head>
                     <Table.HeaderCell>
@@ -36,6 +36,9 @@ function CandidateProfilePage(props : IProps) {
                     </Table.HeaderCell>
                     <Table.HeaderCell>
                         Subject
+                    </Table.HeaderCell>
+                    <Table.HeaderCell>
+                        Exam name
                     </Table.HeaderCell>
                     <Table.HeaderCell>
                         Created at

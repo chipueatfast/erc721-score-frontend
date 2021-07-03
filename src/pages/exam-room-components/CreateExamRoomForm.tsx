@@ -7,7 +7,8 @@ import {
     Select,
     Table,
     TableHeaderCell,
-    TextInput
+    TextInput,
+    toaster
 } from 'evergreen-ui';
 import {Formik} from 'formik';
 import {createExamRoomDocument} from 'firebase-service/createExamRoomDocument';
@@ -19,12 +20,13 @@ function CreateExamRoomForm({
 }) {
     return (
         <Formik
-            onSubmit={async(values, actions) => {
-            createExamRoomDocument(userAddress, {
+            onSubmit={async (values, actions) => {
+            await createExamRoomDocument(userAddress, {
                 id: Date.now(),
                 subject: values.subject,
                 roomName: values.name
             });
+            toaster.success('Room created!');
             actions.resetForm();
         }}
             initialValues={{

@@ -31,6 +31,10 @@ function AddCandidateForm(props : {
             score: ''
         }}
             onSubmit={async (values, actions) => {
+            if (!values.name || !values.ethAddress || !values.score) {
+                setErrorMessage('All fields are mandatory');
+                return;
+            }
             const registeredAddresses = await getExamRoomDocument({
                 roomId: props.roomId,
             });
