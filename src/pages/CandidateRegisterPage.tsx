@@ -1,33 +1,66 @@
 import React from 'react';
-import { Button, Card, majorScale, Pane, TextInput, toaster } from 'evergreen-ui';
+import { Button, Heading, Card, FilePicker, majorScale, Pane, TextInput, toaster, Paragraph } from 'evergreen-ui';
 import { Formik } from 'formik';
 import { addCandidateV2 } from 'firebase-service/addCandidateV2';
 import { grantCandidateRole } from 'services/grantCandidateRole';
 import { UserAddressContext } from 'context/userAddressContext';
+import { useHistory } from 'react-router-dom';
+import { checkIfExistingCandidate } from 'firebase-service/checkIfExistingCandidate';
 
 function CandidateRegisterPage() {
+    const history = useHistory();
     const userAddress = React.useContext(UserAddressContext);
+    const [file, setFile] = React.useState<any>(null); 
+    React.useEffect(() => {
+        checkIfExistingCandidate({
+            ethAddress: userAddress,
+        }).then(() =>{ 
+            toaster.danger('This address has already been registered');
+            history.push('/candidate-profile');
+        });
+    })
     if (!userAddress) {
         return null;
     }
     return (
 
         <Pane display='flex' justifyContent='center' flexDirection='column' alignItems='center'>
+            <Pane maxWidth={majorScale(64)}>
+                <Heading>
+                    Register your credential
+                </Heading>
+                <Paragraph marginBottom={majorScale(2)}>
+                    Please attach your profile information in order to join our grading system.
+                    <br />
+                    You can only this action once, so be careful.
+                    <br />
+                    After you have registered, judge can create your score token and you can see it via you Profile section.
+                    <br />
+                    Make sure your input name matches the information in your indentity card.
+                </Paragraph>
+            </Pane>
             <Formik
                 initialValues={{
                     ethAddress: userAddress,
                     name: '',
                 }}
                 onSubmit={async (values, actions) => {
+                    if (!values.name) {
+                        toaster.danger('Please fill in your real name.');
+                        return;
+                    }
                     const rs = await grantCandidateRole({
                         name: values.name,
                         fromAddress: userAddress,
                     });
                     if (rs.status) {
                         if (await addCandidateV2(values)) {
-                            toaster.success(`Your credential has been added to our list`);
+                            toaster.success(`Your credential has been added to our list, redirecting to your Profile...`);
+                            setTimeout(() => {
+                                history.push('/candidate-profile');
+                            }, 2000);
                         } else {
-                            toaster.success('This address has been updated credential');
+                            toaster.danger('This address has already been registered');
                         }
                     } else {
                         if (rs.errorMessage) {
@@ -54,6 +87,19 @@ function CandidateRegisterPage() {
                                     width='100%'
                                     placeholder='Candidate name'/>
                             </Pane>
+                            <Pane  marginBottom={majorScale(2)}>
+                                <FilePicker
+                                    width='100%'
+                                    multiple
+                                    onChange={files => setFile(files)}
+                                    placeholder="Please upload your Indentity card"
+                                />
+                                {
+                                    !!file && <img style={{
+                                        marginTop: majorScale(2),
+                                    }} src='https://i.imgur.com/NpGeq0m.png' alt='mock KYC' /> 
+                                }
+                            </Pane>
                             <Pane marginBottom={majorScale(2)}>
                                 <TextInput
                                     disabled
@@ -65,7 +111,7 @@ function CandidateRegisterPage() {
                             </Pane>
                             <Pane marginBottom={majorScale(2)} display='flex' justifyContent='flex-end'>
                                 <Button onClick={() => handleSubmit()} appearance='primary'>
-                                    Register or Update
+                                    Register
                                 </Button>
                             </Pane>
                         </Card>

@@ -1,6 +1,8 @@
 import React from 'react';
 import firebase from 'firebase/app';
 import {Card, majorScale, Pane, Text} from 'evergreen-ui';
+import { getExamRoomNameByRoomId } from 'firebase-service/getExamRoomNameByRoomId';
+import { mapSubjectValueToLabel } from 'utils/mapSubjectValueToLabel';
 
 function RoomInfoCard(props : {
     roomId: string;
@@ -9,6 +11,8 @@ function RoomInfoCard(props : {
 }) {
     const [judgeName,
         setJudgeName] = React.useState('');
+    const [examName,
+        setExamName] = React.useState('');
     React.useEffect(() => {
         if (props.judgeAddress) {
             const ref = firebase
@@ -24,6 +28,9 @@ function RoomInfoCard(props : {
                 }
             })
         }
+        getExamRoomNameByRoomId({
+            roomId: props.roomId
+        }).then(setExamName);
     }, [props.judgeAddress])
     return (
         <Card             
@@ -32,13 +39,13 @@ function RoomInfoCard(props : {
             marginBottom={majorScale(2)}
             elevation={1}
             width='100%'
-            maxWidth={majorScale(32)}
+            maxWidth={majorScale(48)}
             paddingY={majorScale(2)}
             paddingX={majorScale(4)}
         >
             <Pane display='flex' flexDirection='row' alignItems='center' marginBottom={majorScale(2)} height={32}>
                 <Text >
-                    <Text fontWeight='bold'>Room ID:</Text> {props.roomId}
+                    <Text fontWeight='bold'>Exam name:</Text> {examName}
                 </Text>
             </Pane>
             <Pane display='flex' flexDirection='row' alignItems='center' height={32} marginBottom={majorScale(2)}>
@@ -48,7 +55,7 @@ function RoomInfoCard(props : {
             </Pane>
             <Pane display='flex' flexDirection='row' alignItems='center' height={32} marginBottom={majorScale(2)}>
                 <Text >
-                    <Text fontWeight='bold'>Subject:</Text> {props.subject}
+                    <Text fontWeight='bold'>Subject:</Text> {mapSubjectValueToLabel(props.subject)}
                 </Text>
 
             </Pane>

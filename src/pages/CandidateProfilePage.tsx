@@ -1,5 +1,5 @@
 import {UserAddressContext} from 'context/userAddressContext';
-import {BanCircleIcon, majorScale, Pane, Table, TickCircleIcon} from 'evergreen-ui';
+import {BanCircleIcon, Heading, majorScale, Pane, Paragraph, Table, TickCircleIcon} from 'evergreen-ui';
 import {getScoreResultOfAnAddress} from 'firebase-service/getScoreResultOfAnAddress';
 import React from 'react';
 import {useHistory} from 'react-router-dom';
@@ -29,6 +29,17 @@ function CandidateProfilePage(props : IProps) {
     }, [userAddress])
     return (
         <Pane marginX={majorScale(16)}>
+            <Pane marginBottom={majorScale(2)}>
+                <Heading>
+                    See your result in participated exams
+                </Heading>
+                <Paragraph>
+                    Your result has been recorded and secured reliability. 
+                    <br />
+                    Result that does not have green tick in 'Verifed on blockchain' will not be accepted as valid result.
+                </Paragraph>
+            </Pane>
+
             <Table>
                 <Table.Head>
                     <Table.HeaderCell>

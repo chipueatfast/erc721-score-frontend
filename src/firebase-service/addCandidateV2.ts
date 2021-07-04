@@ -6,7 +6,7 @@ export async function addCandidateV2(args: {
     ethAddress: string;
 }) {
     const existingCandidate = await firebase.database().ref(`${candidatePath}/${args.ethAddress}`).get();
-    if (!existingCandidate) {
+    if (existingCandidate) {
         return false;
     }
     firebase.database().ref(`${candidatePath}/${args.ethAddress}`).set({

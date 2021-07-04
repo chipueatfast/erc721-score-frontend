@@ -2,6 +2,7 @@ import React from 'react';
 import { Code, Paragraph, majorScale, Text, Pane, Position, Strong, Tooltip } from 'evergreen-ui';
 import HeaderItem from './HeaderItem';
 import { detectRole } from 'firebase-service/detectRole';
+import { reduceAddressForDisplay } from 'utils/reduceAddressForDisplay';
 
 
 interface IProps {
@@ -87,7 +88,7 @@ export function Header(props: IProps) {
                 <Tooltip 
                     content={<Pane overflow='hidden'>
                         <Text textOverflow='ellipsis' color='white'>
-                        User address: {props.userAddress}
+                        User address: {reduceAddressForDisplay(props.userAddress)}
                         </Text>
                         </Pane>} 
                     position={Position.LEFT}
