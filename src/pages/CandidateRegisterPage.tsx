@@ -14,9 +14,11 @@ function CandidateRegisterPage() {
     React.useEffect(() => {
         checkIfExistingCandidate({
             ethAddress: userAddress,
-        }).then(() =>{ 
-            toaster.danger('This address has already been registered');
-            history.push('/candidate-profile');
+        }).then((rs) =>{
+            if (rs) {
+                toaster.danger('This address has already been registered');
+                history.push('/candidate-profile');
+            } 
         });
     })
     if (!userAddress) {
@@ -59,8 +61,6 @@ function CandidateRegisterPage() {
                             setTimeout(() => {
                                 history.push('/candidate-profile');
                             }, 2000);
-                        } else {
-                            toaster.danger('This address has already been registered');
                         }
                     } else {
                         if (rs.errorMessage) {

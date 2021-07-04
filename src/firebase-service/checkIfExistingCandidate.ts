@@ -5,7 +5,8 @@ export async function checkIfExistingCandidate(args: {
     ethAddress: string;
 }) {
     const existingCandidate = await firebase.database().ref(`${candidatePath}/${args.ethAddress}`).get();
-    if (existingCandidate) {
+    if (existingCandidate.val()) {
+        debugger
         return true;
     }
     return false;

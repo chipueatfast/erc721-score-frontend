@@ -1,5 +1,5 @@
 import {UserAddressContext} from 'context/userAddressContext';
-import {BanCircleIcon, Heading, majorScale, Pane, Paragraph, Table, TickCircleIcon} from 'evergreen-ui';
+import {BanCircleIcon, Heading, majorScale, minorScale, Pane, Paragraph, Table, Text, TickCircleIcon} from 'evergreen-ui';
 import {getScoreResultOfAnAddress} from 'firebase-service/getScoreResultOfAnAddress';
 import React from 'react';
 import {useHistory} from 'react-router-dom';
@@ -60,6 +60,13 @@ function CandidateProfilePage(props : IProps) {
 
                 </Table.Head>
                 <Table.Body>
+                    {candidateResult.length === 0 && (<Table.Row>
+                                        <Pane display='flex' alignItems='center' marginX={minorScale(3)}>
+                                            <Text>
+                                                No data yet
+                                            </Text>
+                                        </Pane>
+                                    </Table.Row>)}
                     {candidateResult.map((r, index) => {
                         return (<CandidateResultRow r={r} index={index}/>)})
                     }
