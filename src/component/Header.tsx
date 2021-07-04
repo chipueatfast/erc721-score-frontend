@@ -1,5 +1,4 @@
 import React from 'react';
-import { useEffect } from 'react';
 import { Code, Paragraph, majorScale, Text, Pane, Position, Strong, Tooltip } from 'evergreen-ui';
 import HeaderItem from './HeaderItem';
 import { detectRole } from 'firebase-service/detectRole';
@@ -12,7 +11,7 @@ interface IProps {
 export function Header(props: IProps) {
     const [role, setRole] = React.useState('');
     const [displayName, setDisplayName] = React.useState('');
-    useEffect(() => {
+    React.useEffect(() => {
         if (props.userAddress) {
             detectRole({
                 userAddress: props.userAddress
@@ -56,6 +55,19 @@ export function Header(props: IProps) {
                     </Pane>
                </a>
                 {
+                    role === 'AUDITOR' &&
+                    <>
+                        <HeaderItem
+                            headerHref='/auditor'
+                            headerName='Auditor'
+                        />
+                        <HeaderItem
+                            headerHref='/search'
+                            headerName='Search'
+                        />
+                    </>
+                }
+                {
                    role === 'JUDGE' &&
                    <HeaderItem
                         headerName='Judge'
@@ -70,10 +82,6 @@ export function Header(props: IProps) {
                         headerHref='/candidate-profile'
                     />
                 }
-                <HeaderItem
-                    headerHref='/search'
-                    headerName='Search'
-                />
             </Pane>
             <Pane>
                 <Tooltip 

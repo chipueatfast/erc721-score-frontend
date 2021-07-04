@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import { Button, majorScale, Pane, SearchInput, Text } from 'evergreen-ui';
+import { Button, Heading, majorScale, Pane, Paragraph, SearchInput, Text } from 'evergreen-ui';
 import { Formik } from 'formik';
 import { getScoreHash } from 'services/getScoreHash';
 import { ResultScoreSheetV2 } from './candidate-page-components/ResultScoreSheetV2';
@@ -30,7 +30,7 @@ export function SearchPage() {
                     }).then(setJudgeAddress);
                     getAllScoreToken().then(rs => {
                         const toFindToken = rs.find(token => token.tokenId === values.tokenId);
-                        if (toFindToken) {debugger
+                        if (toFindToken) {
                             setTokenInfo({
                                 roomId: toFindToken?.roomId,
                                 tokenId: Number(values.tokenId),
@@ -49,6 +49,12 @@ export function SearchPage() {
                     <Pane
                         marginBottom={majorScale(2)}
                     >
+                        <Heading>
+                            Search a specific result by token ID
+                        </Heading>
+                        <Paragraph marginBottom={majorScale(2)}>
+                            In case you need to look deeper into one single case to scrutinize, <br /> this function provide more insight on the published result.
+                        </Paragraph>
                         <SearchInput 
                             name='tokenId'
                             onChange={handleChange}

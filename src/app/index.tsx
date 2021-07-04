@@ -19,6 +19,7 @@ import ResultExamRoomPage from 'pages/ResultExamRoomPage';
 import CandidateRegisterPage from 'pages/CandidateRegisterPage';
 import CandidateProfilePage from 'pages/CandidateProfilePage';
 import {Pane, majorScale} from 'evergreen-ui';
+import AuditorPage from 'pages/AuditorPage';
 
 function App() {
     const [isEthEnabled,
@@ -94,8 +95,11 @@ function App() {
                                     <Route path='/candidate-profile'>
                                         <CandidateProfilePage/>
                                     </Route>
+                                    <Route path='/auditor'>
+                                        <AuditorPage />
+                                    </Route>
                                     <Route path='/'>
-                                        <HomePage/>
+                                        <HomePage userAddress={userAddress}/>
                                     </Route>
                                 </Switch>
                             </Pane>
