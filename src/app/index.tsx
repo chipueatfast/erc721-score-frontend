@@ -20,6 +20,7 @@ import CandidateRegisterPage from 'pages/CandidateRegisterPage';
 import CandidateProfilePage from 'pages/CandidateProfilePage';
 import {Pane, majorScale} from 'evergreen-ui';
 import AuditorPage from 'pages/AuditorPage';
+import ApprovePage from 'pages/ApprovePage';
 
 function App() {
     const [isEthEnabled,
@@ -97,6 +98,9 @@ function App() {
                                     </Route>
                                     <Route path='/auditor'>
                                         <AuditorPage />
+                                    </Route>
+                                    <Route path='/dashboard'>
+                                        <ApprovePage />
                                     </Route>
                                     <Route path='/'>
                                         <HomePage userAddress={userAddress}/>

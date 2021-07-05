@@ -55,6 +55,15 @@ export function Header(props: IProps) {
     
                     </Pane>
                </a>
+               {
+                    role === 'ADMIN' &&
+                    <>
+                        <HeaderItem
+                            headerHref='/dashboard'
+                            headerName='Dashboard'
+                        />
+                    </>
+                }
                 {
                     role === 'AUDITOR' &&
                     <>

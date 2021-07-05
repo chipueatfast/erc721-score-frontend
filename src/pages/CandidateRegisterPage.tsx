@@ -9,6 +9,7 @@ import { checkIfExistingCandidate } from 'firebase-service/checkIfExistingCandid
 
 function CandidateRegisterPage() {
     const history = useHistory();
+    const [view, setView] = React.useState('FORM');
     const userAddress = React.useContext(UserAddressContext);
     const [file, setFile] = React.useState<any>(null); 
     React.useEffect(() => {
@@ -23,6 +24,18 @@ function CandidateRegisterPage() {
     })
     if (!userAddress) {
         return null;
+    }
+    if (view === 'PENDING') {
+        return (<Pane>
+            <Heading>
+                Your request is sucessfully submitted
+            </Heading>
+            <Paragraph>
+                Your request to participate is being review
+                <br />
+                Please recheck your account after 2-3 days, thank you.
+            </Paragraph>
+        </Pane>);
     }
     return (
 
@@ -51,22 +64,15 @@ function CandidateRegisterPage() {
                         toaster.danger('Please fill in your real name.');
                         return;
                     }
-                    const rs = await grantCandidateRole({
-                        name: values.name,
-                        fromAddress: userAddress,
-                    });
-                    if (rs.status) {
-                        if (await addCandidateV2(values)) {
-                            toaster.success(`Your credential has been added to our list, redirecting to your Profile...`);
-                            setTimeout(() => {
-                                history.push('/candidate-profile');
-                            }, 2000);
-                        }
-                    } else {
-                        if (rs.errorMessage) {
-                            toaster.danger(rs.errorMessage);
-                        }
+                    // const rs = await grantCandidateRole({
+                    //     name: values.name,
+                    //     fromAddress: userAddress,
+                    // });
+                    if (await addCandidateV2(values)) {
+                        toaster.success(`Your credential has been added to our pending list, waiting for approval`);
+                        setView('PENDING');
                     }
+                    
                 }}
             >
                 {({handleSubmit, handleChange, values}) => {

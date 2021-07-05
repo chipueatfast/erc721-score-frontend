@@ -4,12 +4,20 @@ import { auditorPath } from "./auditorPath";
 import { candidatePath } from './candidatePath';
 import { judgePath } from './judgePath';
  
+export const adminAddress = '0x8a4e1258e898e526046EB8CebAAE23B655B9783b';
+
 export async function detectRole(args: {
     userAddress: string;
 }): Promise<{
     titleName: string;
-    role: 'JUDGE' | 'AUDITOR' | 'CANDIDATE' | '';
+    role: 'JUDGE' | 'AUDITOR' | 'CANDIDATE' | 'ADMIN' | '';
 }> {
+    if (args.userAddress === adminAddress) {
+        return {
+            titleName: `Admin`,
+            role: 'ADMIN', 
+        };
+    }
     const auditorList = (await firebase.database().ref(`${auditorPath}`).get()).val();
     if (doesKeyExistInObject(auditorList, args.userAddress)) {
         return {
