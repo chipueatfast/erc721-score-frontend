@@ -62,6 +62,10 @@ export function Header(props: IProps) {
                             headerHref='/dashboard'
                             headerName='Dashboard'
                         />
+                        <HeaderItem
+                            headerHref='/staff'
+                            headerName='Staff'
+                        />
                     </>
                 }
                 {

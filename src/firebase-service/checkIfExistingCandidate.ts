@@ -6,8 +6,7 @@ export async function checkIfExistingCandidate(args: {
 }) {
     const existingCandidate = await firebase.database().ref(`${candidatePath}/${args.ethAddress}`).get();
     if (existingCandidate.val()) {
-        debugger
-        return true;
+        return existingCandidate.val().isVerified;
     }
     return false;
 }

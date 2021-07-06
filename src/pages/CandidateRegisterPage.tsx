@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Heading, Card, FilePicker, majorScale, Pane, TextInput, toaster, Paragraph } from 'evergreen-ui';
+import { Button, Heading, Card, FilePicker, majorScale, Pane, TextInput, toaster, Paragraph, TimeIcon } from 'evergreen-ui';
 import { Formik } from 'formik';
 import { addCandidateV2 } from 'firebase-service/addCandidateV2';
-import { grantCandidateRole } from 'services/grantCandidateRole';
 import { UserAddressContext } from 'context/userAddressContext';
 import { useHistory } from 'react-router-dom';
 import { checkIfExistingCandidate } from 'firebase-service/checkIfExistingCandidate';
+import { EnumCandidateVerifyStatus } from 'models/EnumCandidateVerifyStatus.model';
 
 function CandidateRegisterPage() {
     const history = useHistory();
@@ -16,9 +16,12 @@ function CandidateRegisterPage() {
         checkIfExistingCandidate({
             ethAddress: userAddress,
         }).then((rs) =>{
-            if (rs) {
-                toaster.danger('This address has already been registered');
+            if (rs === EnumCandidateVerifyStatus.APPROVED) {
+                toaster.notify('This address has already been registered');
                 history.push('/candidate-profile');
+            } 
+            if (rs === EnumCandidateVerifyStatus.PENDING) {
+                setView('PENDING');
             } 
         });
     })
@@ -27,6 +30,7 @@ function CandidateRegisterPage() {
     }
     if (view === 'PENDING') {
         return (<Pane>
+            <TimeIcon size={48} marginBottom={majorScale(2)} />
             <Heading>
                 Your request is sucessfully submitted
             </Heading>
@@ -64,10 +68,6 @@ function CandidateRegisterPage() {
                         toaster.danger('Please fill in your real name.');
                         return;
                     }
-                    // const rs = await grantCandidateRole({
-                    //     name: values.name,
-                    //     fromAddress: userAddress,
-                    // });
                     if (await addCandidateV2(values)) {
                         toaster.success(`Your credential has been added to our pending list, waiting for approval`);
                         setView('PENDING');

@@ -21,6 +21,7 @@ import CandidateProfilePage from 'pages/CandidateProfilePage';
 import {Pane, majorScale} from 'evergreen-ui';
 import AuditorPage from 'pages/AuditorPage';
 import ApprovePage from 'pages/ApprovePage';
+import StaffPage from 'pages/StaffPage';
 
 function App() {
     const [isEthEnabled,
@@ -101,6 +102,9 @@ function App() {
                                     </Route>
                                     <Route path='/dashboard'>
                                         <ApprovePage />
+                                    </Route>
+                                    <Route path='/staff'>
+                                        <StaffPage />
                                     </Route>
                                     <Route path='/'>
                                         <HomePage userAddress={userAddress}/>

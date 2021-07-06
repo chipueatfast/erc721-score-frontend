@@ -1,12 +1,10 @@
 import { getContract } from 'smart-contract/erc721-score';
 import { parseEVMErrorMessage } from 'utils/parseEVMErrorMessage';
 
-export async function grantCandidateRole({
-    candidateName,
-    candidateEthAddress,
+export async function grantJudgeRole({
+    judgeEthAddress,
     fromAddress}: {
-        candidateName: string,
-        candidateEthAddress: string,
+        judgeEthAddress: string,
         fromAddress: string;
     }): Promise<{
         status: boolean;
@@ -14,7 +12,7 @@ export async function grantCandidateRole({
     }> {
     return new Promise(async (resolve) => {
         try {
-            await getContract().methods.registerCandidate(candidateEthAddress, candidateName).send({
+            await getContract().methods.granMinterRole(judgeEthAddress).send({
                 from: fromAddress,
             });
             
