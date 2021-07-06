@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pane, Heading, Text, Strong, Table, majorScale, Spinner, Button, Paragraph, TableHeaderCell} from 'evergreen-ui';
+import {Pane, Heading, Text, Strong, Table, majorScale, Spinner, Button, Paragraph, TableHeaderCell, TickCircleIcon} from 'evergreen-ui';
 import {getAllScoreToken} from 'firebase-service/getAllScoreToken';
 import {convertScoreFormToScoreHash} from 'services/convertScoreFormToScoreHash';
 import {getScoreHash} from 'services/getScoreHash';
@@ -94,30 +94,38 @@ function AuditorPage() {
                         {errorResult.length}
                     </Text>
                 </Paragraph>
-
             </Pane>
-            <Table>
-                <Table.Head>
-                    <TableHeaderCell>
-                        TOKEN ID
-                    </TableHeaderCell>
-                    <TableHeaderCell>
-                        CANDIDATE NAME
-                    </TableHeaderCell>
-                    <TableHeaderCell>
-                        SCORE
-                    </TableHeaderCell>
-                    <TableHeaderCell>
-                        JUDGE NAME
-                    </TableHeaderCell>
-                </Table.Head>
-                <Table.Body>
-                    {errorResult.map((eR : any) => {
-                            return (<ErrorRow key={eR.id + eR.roomId} eR={eR}/>)
-                        })
-                    }
-                </Table.Body>
-            </Table>
+            {
+                errorResult.length === 0 ?
+                <Pane alignItems='center' display='flex'>
+                    <TickCircleIcon size={48} color='success' marginRight={majorScale(2)}/>
+                    <Strong>
+                        No issues detected, the whole system is reliable
+                    </Strong>
+                </Pane> :
+                <Table>
+                    <Table.Head>
+                        <TableHeaderCell>
+                            TOKEN ID
+                        </TableHeaderCell>
+                        <TableHeaderCell>
+                            CANDIDATE NAME
+                        </TableHeaderCell>
+                        <TableHeaderCell>
+                            SCORE
+                        </TableHeaderCell>
+                        <TableHeaderCell>
+                            JUDGE NAME
+                        </TableHeaderCell>
+                    </Table.Head>
+                    <Table.Body>
+                        {errorResult.map((eR : any) => {
+                                return (<ErrorRow key={eR.id + eR.roomId} eR={eR}/>)
+                            })
+                        }
+                    </Table.Body>
+                </Table>
+            }
 
         </Pane>
     );
