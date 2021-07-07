@@ -55,7 +55,7 @@ function AddCandidateForm(props : {
                         roomId: props.roomId,
                         ethAddress: values.ethAddress,
                         candidateName: values.name,
-                        score: Number(values.score)
+                        score: values.score,
                     });
                     setSuccessMessage(`The new minted token ID is: ${tokenId}`);
                 }

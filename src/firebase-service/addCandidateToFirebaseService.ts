@@ -6,7 +6,7 @@ export async function addCandidateToFirebaseService(args: {
     subject: string;
     ethAddress: string;
     candidateName: string;
-    score: number;
+    score: string;
 }): Promise<void> {
     firebase.database().ref(`candidate-results/${args.roomId}/${args.ethAddress}`).set({
         id: args.ethAddress,
