@@ -1,7 +1,7 @@
 import { getWeb3 } from 'GlobalContext';
 import * as Web3EthContract from 'web3-eth-contract';
 
-const NETWORK_ID = 5777;
+const NETWORK_ID = 97;
 
 const erc721ScoreJson = require('./ERC721PresetMinterPauserAutoId.json');
 

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {FirebaseDatabaseProvider} from "@react-firebase/database";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import firebase from 'firebase/app';
+import firebase from "firebase/app";
 import 'firebase/database';
 import {config} from 'firebase-service/config';
 import {JudgePageV2} from 'pages/JudgePageV2';
@@ -22,7 +22,7 @@ import {Pane, majorScale} from 'evergreen-ui';
 import AuditorPage from 'pages/AuditorPage';
 import ApprovePage from 'pages/ApprovePage';
 import StaffPage from 'pages/StaffPage';
-
+firebase.initializeApp(config);
 function App() {
     const [isEthEnabled,
         setIsEthEnabled] = useState < boolean > (false);
@@ -32,7 +32,7 @@ function App() {
         askForConnect().then((rs) => {
             setIsEthEnabled(rs);
             if (!rs) {
-                return;
+                return;i
             }
             getWeb3()
                 .eth
@@ -51,7 +51,7 @@ function App() {
     }
 
     return (
-        <FirebaseDatabaseProvider firebase={firebase} {...config}>
+        <FirebaseDatabaseProvider firebase={firebase}>
             <UserAddressContext.Provider value={userAddress}>
                 <Router>
                     <div className="App">
