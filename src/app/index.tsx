@@ -32,7 +32,7 @@ function App() {
         askForConnect().then((rs) => {
             setIsEthEnabled(rs);
             if (!rs) {
-                return;i
+                return;
             }
             getWeb3()
                 .eth
