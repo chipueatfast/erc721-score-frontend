@@ -4,7 +4,7 @@ import { auditorPath } from "./auditorPath";
 import { candidatePath } from './candidatePath';
 import { judgePath } from './judgePath';
  
-export const adminAddress = '0x8a4e1258e898e526046EB8CebAAE23B655B9783b';
+export const adminAddress = '0x521a848deaA882844a84442f5A0eb112De7D57c6';
 
 export async function detectRole(args: {
     userAddress: string;
